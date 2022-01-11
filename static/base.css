@@ -9,7 +9,8 @@ body{
     width: 70%;
     height: 100vh;
     /* background-color: #fff; */
-    margin: 20px auto;
+    margin: 0 auto;
+    
 }
 .navbar{
     height: 60px;
