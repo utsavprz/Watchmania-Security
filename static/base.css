@@ -6,12 +6,13 @@ body{
     background-color: #EBECED !important;
 }
 .baseCtn{
+    position: relative;
     width: 70%;
     height: 100vh;
     /* background-color: #fff; */
     margin: 0 auto;
-    
 }
+
 .navbar{
     height: 60px;
     background-color: #121920;
@@ -132,6 +133,10 @@ body{
 }
 
 @media only screen and (max-width: 426px) {
+    .navbar{
+        position: fixed;
+        top: 0;
+    }
     .baseCtn{
         width: 100%;
         overflow-x: scroll;

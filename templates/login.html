@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'loginStyle.css' %}">
+    <title>Document</title>
+</head>
+<body>
+
+      <div class=" login container">
+        <div class="title">Log in</div>
+        <div class="content">
+          <form action="#">
+            <div class="user-details d-flex flex-column">
+              <div class="input-box">
+                <span class="details">Username</span>
+                <input type="text" name="username" placeholder="Enter your name" required>
+              </div>
+              <div class="input-box">
+                <span class="details">Password</span>
+                <input type="password" name="password" placeholder="Enter your password" required>
+              </div>
+              
+            </div>
+
+            <div class="button">
+              <input type="submit" value="Log in">
+              <a href="{% url 'register' %}">Don't have an account? Register</a>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    <script>
+
+	</script>
+</body>
+</html>
