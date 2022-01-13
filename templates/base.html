@@ -31,9 +31,15 @@
                         <h6>0</h6>
                     </div>
                 </div>
-                <div class="acc">
-                    <a href="{% url 'login' %}">Sign in</a>
-                </div>
+                {% if user.is_authenticated %}
+                    <div class="acc">
+                        <a href="">{{current_user}}</a>
+                    </div>
+                {% else %}
+                    <div class="acc">
+                        <a href="{% url 'login' %}">Sign in</a>
+                    </div>
+                {% endif %}
                 </div>
 
           </nav>

@@ -14,7 +14,8 @@
       <div class=" login container">
         <div class="title">Log in</div>
         <div class="content">
-          <form action="#">
+          <form method="POST">
+            {% csrf_token %}
             <div class="user-details d-flex flex-column">
               <div class="input-box">
                 <span class="details">Username</span>

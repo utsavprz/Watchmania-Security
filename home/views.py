@@ -5,5 +5,8 @@ from django.shortcuts import render
 
 
 def index(request):
-    context={}
+    current_user = request.user
+    context={
+        'current_user':current_user,
+    }
     return render(request,'home.html',context)
