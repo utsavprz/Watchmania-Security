@@ -5,17 +5,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'baseStyle.css' %}">
-    <link rel="stylesheet" href="{% static 'homeStyle.css' %}">
+    <link rel="stylesheet" href="{% static 'css/baseStyle.css' %}">
+    <link rel="stylesheet" href="{% static 'css/homeStyle.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profileStyle.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script type="text/javascript" src="{% static 'home.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/home.js' %}"></script>
     <title>Document</title>
  
 </head>
 <body>
 
         <nav class="navbar justify-content-between navbar-expand-lg">
-            <a class="compName" href="#">Bramhayeni</a>
+            <a class="compName" href="{% url 'index' %}">Bramhayeni</a>
           
               <form class="form-inline">
                 <input class="searchField" type="search" placeholder="Search">
@@ -36,9 +37,12 @@
                         <!-- <a class="BringDropdown" href="">{{current_user}}</a> -->
                         <img onclick="dropdownContent()" src="{% static 'user.png' %}" alt="">
                         <div id="dropdown-content" class="dropdown-content hide">
-                          <h6>Hello! {{current_user}}</h6>
-                          <a href="#">Link 2</a>
-                          <a href="#">Link 3</a>
+                          <h6>Hello! {{current_user.first_name}}</h6>
+                          <a href="{% url 'profile' %}">Account</a>
+                          <a href="#">Wishlist</a>
+                          <a href="#">My Order</a>
+                          <a href="#">Cancelled Order</a>
+                          <a class="logoutUser" href="{% url 'logout' %}">Logout</a>
                         </div>
 
                     </div>
@@ -82,7 +86,7 @@
                 $('#dropdown-content').removeClass('hide')
                 setInterval(() => {
                     $('#dropdown-content').addClass('hide')
-                }, 5000);
+                }, 7000);
              }
              
          }
