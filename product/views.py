@@ -8,7 +8,7 @@ def searchResult(request):
 
     item_name = request.GET.get('item_name')
     if item_name!= "" and item_name is not None:
-        allproducts = allproducts.filter(description__icontains=item_name)
+        allproducts = allproducts.filter(search_tags__icontains=item_name)
 
     context={
         'allproducts':allproducts,
