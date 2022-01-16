@@ -1,6 +1,8 @@
+from multiprocessing import context
+from unicodedata import category
 from django.shortcuts import render
 
-from product.models import Products
+from product.models import Category, Products
 
 # Create your views here.
 def searchResult(request):
@@ -17,3 +19,33 @@ def searchResult(request):
         'current_user':current_user
     }
     return render(request,'searchResult.html',context)
+
+def display(request):
+    
+    category = request.GET.get('category')
+
+    category_name = Category.objects.get(id=category)
+
+    filteredProd = Products.objects.all()
+
+    if category != None:
+        filteredProd = Products.objects.filter(category = category)
+
+
+    context = {
+        'filteredProd':filteredProd,
+        'category_name': category_name,
+    }     
+    return render (request, 'display.html',context)
+
+def detail(request,item_id):
+    allProducts = Products.objects.get(pk=item_id)
+
+    similar = Products.objects.filter(category = allProducts.category)
+    
+    print(similar)
+    context={
+        'allProducts':allProducts,
+        'similar':similar
+    }
+    return render(request,'productDetail.html',context)

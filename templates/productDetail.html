@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block title %}
+product detail
+{% endblock %}
+
+
+{% block body %}
+<div class="main-detail">
+
+    <div class="item product-img">
+        <div class="prod-img-container">
+
+            <img src="{{allProducts.image}}" alt="">
+        </div>
+    </div>
+  
+    <div class="item product-det d-flex align-items-center">
+        <div class="prod-detail d-flex flex-column justify-content-center">
+
+            <h1>{{allProducts.name}}</h1>
+            <div class="sm-ft d-flex flex-column justify-content-around">
+                <p>Brand: <a href="">{{allProducts.brand.name}}</a>  </p>
+            </div>
+            <hr>
+            <div class="prod-desc">
+                <p>{{allProducts.description}}</p>
+            </div>
+            <div class="prod-price">
+                <h2>रु{{allProducts.price}}</h2>
+            </div>
+            <div class="ProdAction tp-margin d-flex justify-content-between">
+                <div class="cartBtn d-flex justify-content-center align-items-center">
+                    <button class="addToCart">Add to Cart</button>
+                </div>
+                <div class="num-counter d-flex justify-content-center align-items-center">
+                    <div class="input-group input-number-group">
+                    <div class="input-group-button">
+                        <span class="input-number-decrement">-</span>
+                    </div>
+                    <input class="input-number" type="number" value="1" min="0" max="1000">
+                    <div class="input-group-button">
+                        <span class="input-number-increment">+</span>
+                    </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
+  </div>
+
+  <div class="titleCtn d-flex align-items-center">
+    <h4>Similar Product to {{allProducts.name}}</h4>
+</div>
+
+
+<div class="productContainer d-flex">
+
+    {% for product in similar %}
+
+        <div class="ProductCard d-flex flex-column justify-content-between">
+            <div class="ProdImg">
+                <a href="/products/productDetail/{{product.id}}"><img src="{{product.image}}" alt=""></a>
+            </div>
+            <div class="ProdTitle">
+                <h6>{{product.name}}</h6>
+                <hr>
+            </div>
+            <div class="ProdInfo d-flex">
+                <div class="ProdPrice">
+                    <h6>रु{{product.price}}</h6>
+                </div>
+                <div class="ProdAvailability d-flex justify-content-end">
+                    {% if product.available == True %}
+                        <h6>In Stock</h6>
+                    {% else %}
+                        <h6>Out of Stock</h6>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="ProdAction d-flex justify-content-between">
+                <div class="cartBtn d-flex justify-content-center align-items-center">
+                    <button class="addToCart">Add to Cart</button>
+                </div>
+                <div class="wishlistCtn d-flex align-items-center justify-content-center">
+                    <button class="wishlist">Wishlist</button>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+        
+        
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
+    <script>
+        $('.input-number-increment').click(function() {
+        var $input = $(this).parents('.input-number-group').find('.input-number');
+        var val = parseInt($input.val(), 10);
+        $input.val(val + 1);
+        });
+
+        $('.input-number-decrement').click(function() {
+        var $input = $(this).parents('.input-number-group').find('.input-number');
+        var val = parseInt($input.val(), 10);
+        $input.val(val - 1);
+        })
+
+
+    </script>
+{% endblock %}

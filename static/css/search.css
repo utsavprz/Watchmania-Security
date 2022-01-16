@@ -15,7 +15,7 @@
     border-radius: 3px;
     padding: 10px;
     margin-bottom: 10px;
-    margin-right: 7px;
+    margin-right: 6px;
 }
 
 
@@ -117,7 +117,7 @@
     }
 
     .ProdImg{
-        width: 70%;
+        width: 80%;
         height: 120px;
         /* background-color: green; */
         margin: 0 auto;
@@ -130,4 +130,28 @@
         color: #D17D49;
         font-size: 10px;
     }
+    .addToCart{
+        height:35px;
+    }
+    .wishlist{
+        height:35px;
+    }
+}
+
+@media only screen and (max-width: 370px) {
+    .SearchProductCard{
+        width: 165px;
+        height: 255px;
+        /* background-color: rgb(199, 9, 224); */
+        margin-right: 5px;
+    }
+    .addToCart{
+        font-size: 10px;
+        margin-top: 5px;
+    }
+    .wishlist{
+        font-size: 10px;
+        margin-top: 5px;
+    }
+
 }

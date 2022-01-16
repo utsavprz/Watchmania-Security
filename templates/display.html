@@ -3,12 +3,12 @@
 
 {% block body %}
 <div class="titleCtn d-flex align-items-center">
-    <h4>Search result for {{item_name}}</h4>
+    <h4>{{category_name.name}}</h4>
 </div>
 
 
 <div class="searchContainer d-flex">
-    {% for schproduct in allproducts%}
+    {% for schproduct in filteredProd%}
         <div class="SearchProductCard d-flex flex-column justify-content-between">
             <div class="ProdImg">
                 <a href="/products/productDetail/{{schproduct.id}}"><img src="{{schproduct.image}}" alt=""></a>

@@ -8,7 +8,6 @@ body{
 .baseCtn{
     position: relative;
     width: 70%;
-    height: 100vh;
     /* background-color: #fff; */
     margin: 0 auto;
 }
@@ -16,6 +15,7 @@ body{
 .navbar{
     height: 60px;
     background-color: #121920;
+    position: sticky;
 }
 
 .compName{
@@ -40,12 +40,16 @@ body{
         width: 9%;
         height: 35px;
         border-radius: 0 5px 5px 0;
-        background-color: tomato;
+        background-color: rgb(255, 43, 6);
         border: 0;
     }
     button img{
         width: 50%;
         height: 50%;
+        margin-top: -3px;
+    }
+    .form-inline button:hover{
+        cursor: pointer;
     }
 .cartProfile{
     width: 110px;
@@ -57,16 +61,18 @@ body{
 .cart{
     position: relative;
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: center;
     width: 35px;
     height: 35px;
     float: left;
     margin-right: 5px;
+   
 }
     .cart img{
         width: 80%;
         height: 80%;
+        margin-top: 5px;
     }
     .count{
         position: absolute;
@@ -228,6 +234,8 @@ body{
         align-items: center;
         width: 35px;
         height: 35px;
+        /* margin-right: 5px; */
+        /* background-color: red; */
     }
     .cart img{
         width: 25px;
