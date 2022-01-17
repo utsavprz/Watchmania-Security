@@ -71,10 +71,19 @@
           </div>
 
 
-        
+       
               <div id="category_ctn" class="category_ctn">
-                  <span><h6>Category</h6></span>
+                  
+                  <div class="cat-list">
+
+                        {% for cat in allcategory %}
+                        <a href="{% url 'display' %}?category={{cat.id}}"><div>{{cat.name}}</div></a>
+                        {% endfor %}
+                </div>
                 </div>    
+                <div id ="pullOut" class="pullOut">
+                    <span><h6>Category</h6></span>
+                </div>
           <div class="baseCtn">
             {% block body %}
 
@@ -98,15 +107,20 @@
          }
 
          let cat_click=false
-         $('#category_ctn').click(function(){
+         $('#pullOut').click(function(){
             if (cat_click == false){
+                document.getElementsByClassName("pullOut")[0].style.left = "180px"
                 document.getElementsByClassName("category_ctn")[0].style.width = "180px"
                 document.getElementsByClassName("category_ctn")[0].style.height = "300px"
+                document.getElementsByClassName("category_ctn")[0].style.overflow = "auto"
+
                 cat_click=true
             }
             else if(cat_click==true){
-                document.getElementsByClassName("category_ctn")[0].style.width = "30px"
+                document.getElementsByClassName("category_ctn")[0].style.width = "0px"
                 document.getElementsByClassName("category_ctn")[0].style.height = "80px"
+                document.getElementsByClassName("pullOut")[0].style.left = "0"
+                document.getElementsByClassName("category_ctn")[0].style.overflow = "hidden"
                 cat_click=false
             }
             console.log(cat_click)

@@ -1,7 +1,7 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
-from product.models import Products
+from product.models import Category, Products
 
 # Create your views here.
 
@@ -9,6 +9,7 @@ from product.models import Products
 def index(request):
     current_user = request.user
     allproducts = Products.objects.all()
+    allcategory = Category.objects.all()
 
     # item_name = request.GET.get('item_name')
     # if item_name!= "" and item_name is not None:
@@ -16,5 +17,6 @@ def index(request):
     context={
         'current_user':current_user,
         'allproducts':allproducts,
+        'allcategory':allcategory,
     }
     return render(request,'home.html',context)
