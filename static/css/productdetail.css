@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
  .main-detail {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(250, 14, 14);
     max-width: 100%;
+    /* height:400px; */
     margin: 30px auto;
     display: flex;
     flex-wrap: wrap;
@@ -16,16 +17,21 @@
   .product-img,
   .product-det{
       display: flex;
+      height: inherit;
       justify-content: center;
         flex: 1;
         background-color: rgb(255, 255, 255);
   }
   
-  .prod-img-container,
+
   .prod-detail {
     width: 100%;
     height: 100%;
     /* background-color: blue; */
+  }
+  .prod-img-container{
+      width: 400px;
+      height: 400px;
   }
   .prod-detail h1{
     font-size: 30px;
@@ -48,8 +54,11 @@
 
   .prod-desc{
       width: 80%;
-      height: 130px;
-      background-color: red;
+      height: auto;
+      /* background-color: red; */
+  }
+  .prod-desc p{
+      font-size: 14px;
   }
   .prod-price h2{
       margin-top: 10px;
@@ -67,9 +76,9 @@
   }
 
 .num-counter{
-    width: 30%;
+    width: 40%;
     /* background-color: red; */
-    margin-top: -6px;
+    margin-top: -15px;
 }
 .input-number-group {
     display: -webkit-flex;
@@ -153,5 +162,26 @@
     }
     .tp-margin{
         margin-top: 30px;
+    }
+    .num-counter{
+        width:45%;
+        margin-left: 10px;
+        /* background-color: red; */
+        margin-top: -15px;
+    }
+    .ProductCard{
+        width: 170px;
+        height: 270px;
+        /* background-color: rgb(253, 8, 8); */
+        border-radius: 3px;
+        padding: 10px;
+        margin-right: 15px;
+    }
+    .ProdImg{
+        width: 70%;
+        height: 120px;
+        /* background-color: green; */
+        margin: 0 auto;
+        text-align: center;
     }
   }
