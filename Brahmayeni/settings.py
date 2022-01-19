@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ["*","192.168.1.28"]
 INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'product.apps.ProductConfig',
+    'cart.apps.CartConfig',
     'accounts.apps.AccountsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'jquery',
+    'rest_framework',
 ]
 
 

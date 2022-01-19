@@ -20,12 +20,14 @@ from home import urls
 from django.conf import settings
 from django.conf.urls.static import static
 
-from product import views
+from product import views as productView
+from cart import views as cartView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('accounts/', include('accounts.urls')),
     path('products/', include('product.urls')),
-    path('searchResult',views.searchResult,name="searched"),
+    path('update_item/', cartView.updateItem,name="update_item"),
+    path('searchResult',productView.searchResult,name="searched"),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

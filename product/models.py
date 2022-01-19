@@ -1,4 +1,5 @@
 
+from itertools import product
 from django.db import models
 
 # Create your models here
@@ -26,3 +27,9 @@ class Products(models.Model):
 
     def __str__(self):
         return f'({self.name} - {self.category})'
+
+class featuredProduct(models.Model):
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.product}'

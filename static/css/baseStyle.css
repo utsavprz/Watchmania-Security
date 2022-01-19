@@ -408,10 +408,11 @@ body{
             height: 50%;
         }
 
-}
 
+    }
 @media only screen and (max-width: 321px) {
     .form-inline{
         width:5px;
     }
+    
 }

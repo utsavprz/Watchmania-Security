@@ -69,22 +69,22 @@ Home
 
         <div class="productContainer d-flex">
 
-            {% for product in allproducts %}
+            {% for featured in featuredProducts %}
 
                 <div class="ProductCard d-flex flex-column justify-content-between">
                     <div class="ProdImg">
-                        <a href="/products/productDetail/{{product.id}}"><img src="{{product.image}}" alt=""></a>
+                        <a href="/products/productDetail/{{featured.product.id}}"><img src="{{featured.product.image}}" alt=""></a>
                     </div>
                     <div class="ProdTitle">
-                        <h6>{{product.name}}</h6>
+                        <h6>{{featured.product.name}}</h6>
                         <hr>
                     </div>
                     <div class="ProdInfo d-flex">
                         <div class="ProdPrice">
-                            <h6>रु{{product.price}}</h6>
+                            <h6>रु{{featured.product.price}}</h6>
                         </div>
                         <div class="ProdAvailability d-flex justify-content-end">
-                            {% if product.available == True %}
+                            {% if featured.product.available == True %}
                                 <h6>In Stock</h6>
                             {% else %}
                                 <h6>Out of Stock</h6>
@@ -93,7 +93,7 @@ Home
                     </div>
                     <div class="ProdAction d-flex justify-content-between">
                         <div class="cartBtn d-flex justify-content-center align-items-center">
-                            <button class="addToCart">Add to Cart</button>
+                            <button data-product="{{featured.product.id}}" data-action="add" class="addToCart update-cart">Add to Cart</button>
                         </div>
                         <div class="wishlistCtn d-flex align-items-center justify-content-center">
                             <button class="wishlist">Wishlist</button>
