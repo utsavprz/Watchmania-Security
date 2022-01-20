@@ -1,6 +1,7 @@
 from multiprocessing import context
 from unicodedata import category
 from django.shortcuts import render
+from cart.models import Order
 
 from product.models import Category, Products
 
@@ -9,6 +10,7 @@ def searchResult(request):
     allproducts = Products.objects.all()
     current_user = request.user
     allcategory = Category.objects.all()
+
 
     item_name = request.GET.get('item_name')
     if item_name!= "" and item_name is not None:
@@ -19,16 +21,17 @@ def searchResult(request):
         'item_name':item_name,
         'current_user':current_user,
         'allcategory':allcategory,
+
     }
     return render(request,'searchResult.html',context)
 
 def display(request):
     
     category = request.GET.get('category')
-
+    current_user = request.user
     category_name = Category.objects.get(id=category)
     allcategory = Category.objects.all()
-
+   
     filteredProd = Products.objects.all()
 
     if category != None:
@@ -45,6 +48,7 @@ def display(request):
 def detail(request,item_id):
     allProducts = Products.objects.get(pk=item_id)
     allcategory = Category.objects.all()
+    current_user = request.user
 
     similar = Products.objects.filter(category = allProducts.category)
     

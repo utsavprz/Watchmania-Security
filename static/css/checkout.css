@@ -1,0 +1,106 @@
+.Chkwrapper { 
+    overflow:hidden;
+    /* margin-top: 20px; */
+  }
+  
+  .Chkwrapper div {
+     /* min-height: 200px; */
+     padding: 10px;
+  }
+  #Chkone {
+    float:left; 
+    width:60%;
+    margin:10px;
+    background-color: red;
+  }
+  #Chktwo { 
+    overflow:hidden;
+    margin:10px;
+    min-height:170px;
+    background-color: pink;
+  }
+  .checkout-container table td {
+    border-bottom: 0;
+
+  }
+
+  
+  @media screen and (max-width: 746px) {
+     #Chkone { 
+      float: none;
+      margin-right:0;
+      width:auto;
+      border:0;  
+    }
+  }
+.checkout-container  table {
+    border: 0;
+  }
+  
+ .checkout-container table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  
+ .checkout-container table tr {
+    border:0;
+    display: block;
+    height: auto;
+    /* height: 0px; */
+    margin-bottom: .625em;
+    /* background-color: red; */
+  }
+  
+ .checkout-container table td {
+    /* border-bottom: 0.7px solid #ddd; */
+    /* background-color: red; */
+    display: block;
+    font-size: 12px;
+    height:auto;
+    text-align: right;
+  }
+.imgChk-container{
+    /* background-color: plum; */
+    margin: 0;
+    width: 100px;
+    height: 70px;
+}
+.imgChk-container img{
+    height: 70px;
+}
+/*   
+ .checkout-container table td::before {
+ 
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  } */
+  
+ .checkout-container table td:first-child {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    border-bottom: 0;
+    height: 80px;
+    /* background-color: yellow; */
+
+  }
+
+  @media only screen and (max-width: 426px) {
+    #Chktwo{
+        padding: 0;
+    }
+
+    .checkout-container table td:first-child {
+        width: 30%;
+      }
+    
+  }

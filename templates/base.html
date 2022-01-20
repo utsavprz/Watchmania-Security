@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="{% static 'css/baseStyle.css' %}">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <link rel="stylesheet" href="{% static 'css/profileStyle.css' %}">
+    <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
     <link rel="stylesheet" href="{%static 'css/search.css'%}">
+    <link rel="stylesheet" href="{%static 'css/cart.css'%}">
     <link rel="stylesheet" href="{%static 'css/productdetail.css'%}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script type="text/javascript" src="{% static 'js/home.js' %}"></script>
@@ -31,9 +33,9 @@
 
               <div class="cartProfile">
                 <div class="cart">
-                    <img src="{% static 'cart.png' %}" alt="">
+                    <a href="{% url 'cartIndex' %}"><img class="cartImg" src="{% static 'cart.png' %}" alt=""></a>
                     <div class="count">
-                        <h6>0</h6>
+                        <h6>{{order.get_cart_items}}</h6>
                     </div>
                 </div>
                 {% if user.is_authenticated %}
@@ -74,7 +76,7 @@
        
               <div id="category_ctn" class="category_ctn">
                   
-                  <div class="cat-list">
+                  <div class="cat-list" id="style-1">
 
                         {% for cat in allcategory %}
                         <a href="{% url 'display' %}?category={{cat.id}}"><div>{{cat.name}}</div></a>

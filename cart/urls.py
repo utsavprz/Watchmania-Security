@@ -5,4 +5,5 @@ from django.urls.conf import include
 from cart import views
 
 urlpatterns = [
+    path('',views.cartIndex,name="cartIndex"),
 ]

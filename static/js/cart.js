@@ -40,3 +40,15 @@ function updateUserOrder(productId,action){
     })
 
 }
+
+$('.cartinput-number-increment').click(function() {
+    var $input = $(this).parents('.cartinput-number-group').find('.cartinput-number');
+    var val = parseInt($input.val(), 10);
+    $input.val(val + 1);
+    });
+
+    $('.cartinput-number-decrement').click(function() {
+    var $input = $(this).parents('.cartinput-number-group').find('.cartinput-number');
+    var val = parseInt($input.val(), 10);
+    $input.val(val - 1);
+    })

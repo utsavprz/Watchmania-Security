@@ -2,6 +2,7 @@ from random import random
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
+from cart.models import Order
 from product.models import Category, Products, featuredProduct
 
 # Create your views here.
@@ -12,6 +13,7 @@ def index(request):
     featuredProducts = featuredProduct.objects.all()
 
     allcategory = Category.objects.all()
+    
     context={
         'current_user':current_user,
         'featuredProducts':featuredProducts,
