@@ -39,11 +39,11 @@ Cart
             <td data-label="Quantity">
                 <div class="qty-counter d-flex justify-content-center align-items-center">
                 <div class=" cartinput-group cartinput-number-group">
-                <div class="cartinput-group-button">
+                <div data-product={{item.product.id}} data-action="remove" class="cartinput-group-button update-cart">
                     <span class="cartinput-number-decrement">-</span>
                 </div>
                 <input class="cartinput-number" type="number" value="{{item.quantity}}" min="0" max="1000">
-                <div class="cartinput-group-button">
+                <div data-product={{item.product.id}} data-action="add" class="cartinput-group-button update-cart">
                     <span class="cartinput-number-increment">+</span>
                 </div>
                 </div>

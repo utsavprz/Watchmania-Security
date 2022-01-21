@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 from accounts.models import User_Address
 from accounts.models import user_details as userDetailModel
+from cart.models import Order
 
 from .forms import CreateUserForm
 from .forms import user_details
@@ -18,6 +19,7 @@ from django.contrib.auth import authenticate,logout
 # Create your views here.
 
 def register(request):
+    current_user = request.user
     if request.user.is_authenticated:
         return redirect ('index')
     else:
@@ -34,9 +36,12 @@ def register(request):
                 return redirect('login')
             else:
                 messages.error(request, "Error")
+                
+    
 
     context ={
-        'form':form
+        'form':form,
+        'order':order,
     }
     return render(request, 'register.html',context)
 
@@ -82,12 +87,23 @@ def profile(request):
             addressExists=True
         else:
             addressExists=False
+        
+
+        if request.user.is_authenticated:
+            order, created = Order.objects.get_or_create(user_info = current_user, complete=False)
+        else:
+            order = {
+            'get_cart_total':0,
+            'get_cart_items':0
+            }   
 
         context={
             'profileData': profileData,
             'current_user': current_user,
             'addressExists':addressExists,
-            'addressData':addressData
+            'addressData':addressData,
+            'order':order,
+
         }
     return render(request,'profile.html',context)
 

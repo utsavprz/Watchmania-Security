@@ -1,6 +1,6 @@
 import json
 from multiprocessing import context
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from cart.models import Order, OrderItem
 from django.contrib.auth.models import User
@@ -13,8 +13,6 @@ def updateItem(request):
     data = json.loads(request.body)
     productId = data['productId']
     action = data['action']
-    print('Action:', action)
-    print('product:', productId)
 
     customer = request.user
     product = Products.objects.get(id=productId)
@@ -22,16 +20,19 @@ def updateItem(request):
 
     orderItem,created = OrderItem.objects.get_or_create(order=order,product=product)
 
-    if action== 'add':
+    if action == 'add':
         orderItem.quantity = (orderItem.quantity + 1)
     elif action == 'remove':
         orderItem.quantity = (orderItem.quantity - 1)
     orderItem.save()
 
+
     if orderItem.quantity <=0:
         orderItem.delete()
+    
+    # return redirect ('index')
 
-    return JsonResponse('Item was added', safe=False)
+    return JsonResponse('HREER', safe=False)
 
 def cartIndex(request):
     allcategory = Category.objects.all()

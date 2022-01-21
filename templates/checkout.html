@@ -7,13 +7,119 @@ Checkout
 {% block body %}
 <div class="Chkwrapper">
     <div id="Chkone">
+        <div id="DisplayInfo" class="displayInfo">
+            <h5>Shipping Information</h5>
+            <hr>
+            <div style="background-color: #fff;" class="p-0">
+                <div class="d-flex flex-column">
+                    <form action="">
+                        {% csrf_token %}
+                    <div class="d-flex justify-content-between p-0 flex-wrap">
+                        <div class="ent1 p-0">
+                            <label class="profLabel bold" for="first_name">First Name</label>
+                            <input class="inputText borderInp" type="text" name="first_name" value="{{customer.first_name}}">
+                        </div>
+                        <div class="ent2 p-0">
+                            <label class="profLabel bold" for="first_name">Last Name</label>
+                            <input class="inputText borderInp" type="text" name="last_name" value="{{customer.last_name}}">
+                            
 
+                        </div>
+                    </div>
+                    {% if addressExists == True %}
+
+                    <div class="d-flex justify-content-between p-0 flex-wrap">
+                        <div class="ent1 p-0">
+                            <label class="profLabel bold" for="city">City</label>
+                            <input class="inputText borderInp" type="text" name="city" value="{{addressData.city}}">
+                    
+                        </div>
+                        <div class="ent2 p-0">
+                            <label class="profLabel bold" for="address">Address</label>
+                            <input class="inputText borderInp" type="text" name="address"  value="{{addressData.address}}">
+                            
+
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between p-0 flex-wrap">
+                        <div class="ent1street p-0">
+                            <label class="profLabel bold" for="street">Street</label>
+                            <input class="inputText borderInp" type="text" name="street"  value="{{addressData.street}}">
+                    
+                        </div>
+                        <div class="ent2zip p-0">
+                            <label class="profLabel bold" for="postalcode">Zipcode</label>
+                            <input class="inputText borderInp" type="text" name="postalcode" value="{{addressData.postalcode}}">
+                            
+
+                        </div>
+                    </div>
+                            
+                            <label class="profLabel bold" for="description">Description</label>
+                            <input class="inputText borderInp" type="text" name="description"  value="{{addressData.description}}">
+                        {% else %}
+                        <div class="d-flex justify-content-between p-0 flex-wrap">
+                            <div class="ent1 p-0">
+                                <label class="profLabel bold" for="city">City</label>
+                                <input class="inputText borderInp" type="text" name="city" value="">
+                        
+                            </div>
+                            <div class="ent2 p-0">
+                                <label class="profLabel bold" for="address">Address</label>
+                                <input class="inputText borderInp" type="text" name="address"  value="">
+                                
+    
+                            </div>
+                        </div>
+    
+                        <div class="d-flex justify-content-between p-0 flex-wrap">
+                            <div class="ent1street p-0">
+                                <label class="profLabel bold" for="street">Street</label>
+                                <input class="inputText borderInp" type="text" name="street"  value="">
+                        
+                            </div>
+                            <div class="ent2zip p-0">
+                                <label class="profLabel bold" for="postalcode">Zipcode</label>
+                                <input class="inputText borderInp" type="text" name="postalcode" value="">
+                                
+    
+                            </div>
+                        </div>
+                                
+                                <label class="profLabel bold" for="description">Description</label>
+                                <input class="inputText borderInp" type="text" name="description"  value="">
+                    {% endif %}
+                    <h6 style="margin-top: 30px;">Contact Information</h6>
+
+                    <div class="d-flex justify-content-between p-0 flex-wrap">
+                            <div class="ent1phone p-0">
+                                <label class="profLabel bold" for="phone">Phone</label>
+                            <input class="inputText borderInp" type="text" name="phone" value="" >
+                        
+                            </div>
+                            <div class="ent2email p-0">
+                                <label class="profLabel bold" for="email">Email Address</label>
+                            <input class="inputText borderInp" type="text" name="email" value="{{customer.email}}" >
+                                
+                            </div>
+                        </div>
+                            
+                            <button class="payBtn">Continue to Payment</button>
+                        </form>
+                </div>
+            </div>
+                </div>
     </div>
     <div id="Chktwo">
+        
         <div class="checkout-container">
-    <!-- <div class="titleCtn extramargin d-flex align-items-center justify-content-between">
-        <h4>Shopping Cart ( {{order.get_cart_items}} )</h4>
-    </div> -->
+        <div style="margin-top: -10px;" class="titleCtn d-flex align-items-center justify-content-between">
+            <h4 style="margin-left: 20px; margin-top: 10px;">Items ( {{order.get_cart_items}} )</h4>
+            <form action="{% url 'cartIndex' %}">
+                <button class="backCart">←Manage Cart</button>
+            </form>
+        </div>
     <table>
         {% for item in items%}
         <tbody>
@@ -35,9 +141,9 @@ Checkout
                     </div>
                     <div style="width: 75%;" class="d-flex flex-column justify-content-center align-items-start p-0">
                         <p style="margin: 0;">{{item.product.name}}</p>
-                        <p style="margin: 0;">{{item.product.price}}</p>
+                        <p style="margin: 0;">रु{{item.product.price}}</p>
                         <p style="margin: 0;">{{item.quantity}}</p>
-                        <p style="margin: 0;">{{item.get_total}}</p>
+                        <p style="margin: 0;">रु{{item.get_total}}</p>
                     </div>
 
                 </div>
@@ -50,8 +156,8 @@ Checkout
         </tbody>
         {% endfor %}
     </table>
-    <div class="titleCtn d-flex align-items-center justify-content-between">
-        <h4 style="margin-left: 40px;">Total: 
+    <div style="margin-top: -10px;" class="titleCtn d-flex align-items-center justify-content-end">
+        <h4>Total: 
             <span style="color: #1EA43A; font-size: 16px;">
             रु{{order.get_cart_total}}
             </span></h4>
