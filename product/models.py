@@ -1,4 +1,5 @@
 
+from email.policy import default
 from itertools import product
 from django.db import models
 
@@ -23,7 +24,9 @@ class Products(models.Model):
     description = models.TextField(blank=True,null=True)
     search_tags = models.TextField(blank=True,null=True)
     available = models.BooleanField()
-    image = models.CharField(max_length=300)
+    image = models.ImageField(default='default.jpg',upload_to='product_imgs',null=True,blank=True)
+    
+
 
     def __str__(self):
         return f'({self.name} - {self.category})'

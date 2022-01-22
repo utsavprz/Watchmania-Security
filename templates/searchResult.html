@@ -11,7 +11,7 @@
     {% for schproduct in allproducts%}
         <div class="SearchProductCard d-flex flex-column justify-content-between">
             <div class="ProdImg">
-                <a href="/products/productDetail/{{schproduct.id}}"><img src="{{schproduct.image}}" alt=""></a>
+                <a href="/products/productDetail/{{schproduct.id}}"><img src="{{schproduct.image.url}}" alt=""></a>
             </div>
             <div class="ProdTitle">
                 <h6>{{schproduct.name}}</h6>
@@ -32,10 +32,28 @@
             </div>
             <div class="ProdAction d-flex justify-content-between">
                 <div class="cartBtn d-flex justify-content-center align-items-center">
-                    <button data-product="{{schproduct.id}}" data-action="add" class="addToCart update-cart">Add to Cart</button>
+                    {% if user.is_authenticated %}
+                        <button id="addTocart" data-product="{{schproduct.id}}" data-action="addWithQty" data-qty="1" class="addToCart update-cart">Add to Cart</button>
+                    {% else %}
+                        <form style="width: 100%;" action="/accounts/login">
+                            <button class="addToCart">Add to Cart</button>
+                            </form>
+                    {% endif %}
                 </div>
                 <div class="wishlistCtn d-flex align-items-center justify-content-center">
-                    <button class="wishlist">Wishlist</button>
+                    <div class="qty-counter d-flex justify-content-center align-items-center">
+                        <div class=" cartinput-group cartinput-number-group">
+                        <div class="cartinput-group-button">
+                            <span class="cartinput-number-decrement">-</span>
+                        </div>
+                        <input id="qtyinputGet" class="cartinput-number" type="number" value="1" min="0" max="1000">
+                        <div class="cartinput-group-button">
+                            <span class="cartinput-number-increment">+</span>
+                        </div>
+                        </div>
+        
+        
+                    </div>
                 </div>
             </div>
         </div>

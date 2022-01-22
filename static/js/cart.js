@@ -5,21 +5,27 @@ for(let i=0; i < updateBtns.length; i++){
     updateBtns[i].addEventListener('click', function(){
         let productId = this.dataset.product
         let action = this.dataset.action
-        // console.log('productId:', productId , 'action', action)
-
-
+        let qty = this.dataset.qty
+ 
         if(user === 'AnonymousUser'){
             console.log('Not logged in')
         }else{
-            updateUserOrder(productId, action)
+                if (qty == null){
+                    qty="false"
+                    updateUserOrder(productId, action,qty)
+                }
+                else{
+                    qty = $('#qtyinputGet').val()
+                    updateUserOrder(productId, action,qty)
+                }
         }
     })
 
 }
 
-function updateUserOrder(productId,action){
+function updateUserOrder(productId,action,qty){
     console.log('User Logged in,','Sending data...')
-
+    console.log('productId:', productId , 'action:', action,'qty:', qty)
     let url = '/update_item/'
 
     fetch(url,{
@@ -28,7 +34,7 @@ function updateUserOrder(productId,action){
             'Content-Type':'application/json',
             'X-CSRFToken' :  csrftoken,
         },
-        body:JSON.stringify({'productId': productId, 'action': action})
+        body:JSON.stringify({'productId': productId, 'action': action, 'qty':qty})
     })
 
     .then((response) => {
@@ -52,5 +58,25 @@ $('.cartinput-number-increment').click(function() {
     $('.cartinput-number-decrement').click(function() {
     var $input = $(this).parents('.cartinput-number-group').find('.cartinput-number');
     var val = parseInt($input.val(), 10);
-    $input.val(val - 1);
+    if ($input.val >0){
+
+        $input.val(val - 1);
+    }
     })
+
+    function validateForCheckout(){
+
+        let price = document.getElementById("totalOrderPrice").innerText;
+
+        if (price == "रु0"){
+            if ($('#msgChk').hasClass('hide')){
+                $('#msgChk').removeClass('hide')
+                // setInterval(() => {
+                //     $('#msgChk').addClass('hide')
+                // }, 7000);
+             }
+        }
+        else{
+            location.href="/checkout/"
+        }
+    }

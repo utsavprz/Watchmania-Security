@@ -14,6 +14,17 @@ def updateItem(request):
     productId = data['productId']
     action = data['action']
 
+    print(productId)   
+    print(action)
+
+    if(data['qty'] == "false"):
+        pass
+    else:
+        qty = data['qty']
+    
+        
+    
+
     customer = request.user
     product = Products.objects.get(id=productId)
     order, created = Order.objects.get_or_create(user_info = customer, complete=False)
@@ -24,6 +35,10 @@ def updateItem(request):
         orderItem.quantity = (orderItem.quantity + 1)
     elif action == 'remove':
         orderItem.quantity = (orderItem.quantity - 1)
+    elif action == 'addWithQty':
+        orderItem.quantity = (orderItem.quantity + int(qty))
+    elif action == 'deleteItem':
+        orderItem.quantity = 0
     orderItem.save()
 
 
