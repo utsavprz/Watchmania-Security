@@ -12,8 +12,7 @@ Checkout
             <hr>
             <div style="background-color: #fff;" class="p-0">
                 <div class="d-flex flex-column">
-                    <form action="">
-                        {% csrf_token %}
+                    <form id='form'>
                     <div class="d-flex justify-content-between p-0 flex-wrap">
                         <div class="ent1 p-0">
                             <label class="profLabel bold" for="first_name">First Name</label>
@@ -105,10 +104,15 @@ Checkout
                             </div>
                         </div>
                             
-                            <button class="payBtn">Continue to Payment</button>
+                            <button type="submit" id="payBtn" class="payBtn">Continue to Payment</button>
                         </form>
                 </div>
             </div>
+            <div id="payment-box" class="payment-box d-none p-0">
+            <div style="margin-top: 10px;" class="titleCtn d-flex align-items-center justify-content-between">
+                <h4 style="margin-left: 20px; margin-top: 10px;">Payment</h4>
+            </div>
+        </div>
                 </div>
     </div>
     <div id="Chktwo">
@@ -166,5 +170,17 @@ Checkout
     </div>
 </div>
 
+<script>
+    let form = document.getElementById('form')
+
+    form.addEventListener('submit',function(e){
+        e.preventDefault()
+        console.log('form submitted')
+
+        document.getElementById('payBtn').classList.add('d-none')
+        document.getElementById('payment-box').classList.remove('d-none')
+    })
+
+</script>
 
 {% endblock %}

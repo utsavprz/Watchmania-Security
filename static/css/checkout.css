@@ -12,7 +12,7 @@
     width:60%;
     margin:10px;
     padding: 0;
-    background-color: #fff;
+    /* background-color: #fff; */
   }
   #Chktwo { 
     overflow:hidden;
@@ -160,7 +160,7 @@
     #Chktwo{
         padding: 0;
        
-        background-color: rgb(255, 255, 255);
+        /* background-color: rgb(255, 255, 255); */
     }
 
     .checkout-container table td:first-child {

@@ -8,7 +8,7 @@ Cart
         <h4>Shopping Cart ( {{order.get_cart_items}} )</h4>
     </div>
     <div class="titleCtn d-flex align-items-center justify-content-between">
-        <h4  style="margin-left: 40px;">Total: 
+        <h4>Total: 
             <span id="totalOrderPrice" style="color: #1EA43A; font-size: 16px;">
             रु{{order.get_cart_total}}
             </span></h4>
@@ -52,7 +52,7 @@ Cart
 
             </div></td>
             <td data-label="Total">रु{{item.get_total}}</td>
-            <td data-label=""><a style="color: red; cursor:pointer;" class="update-cart" data-product="{{item.product.id}}" data-action="deleteItem">Delete</a></td>
+            <td data-label=""><a style="color: red; cursor:pointer;" class="update-cart" data-product="{{item.product.id}}" data-action="deleteItem">Remove</a></td>
 
             
           </tr>

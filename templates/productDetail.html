@@ -33,12 +33,12 @@ product detail
                 <div class="cartBtn d-flex justify-content-center align-items-center">
                     <button id="addTocart" data-product="{{allProducts.id}}" data-action="addWithQty" data-qty="1" class="addToCart update-cart">Add to Cart</button>
                 </div>
-                <div class="num-counter d-flex justify-content-center align-items-center">
+                <div style="margin-top: -5px;" class="num-counter d-flex justify-content-center align-items-center">
                     <div class="input-group input-number-group">
                     <div class="input-group-button">
                         <span id="incementor" class="input-number-decrement">-</span>
                     </div>
-                    <input class="input-number" id="qtyinputGet" type="number" value="1" min="0" max="1000">
+                    <input style="border: 0;" class="input-number" id="qtyinputGet" type="number" value="1" min="0" max="1000">
                     <div class="input-group-button">
                         <span id="incementor2" class="input-number-increment">+</span>
                     </div>
@@ -93,19 +93,7 @@ product detail
                     {% endif %}
                 </div>
                 <div class="wishlistCtn d-flex align-items-center justify-content-center">
-                    <div class="qty-counter d-flex justify-content-center align-items-center">
-                        <div class=" cartinput-group cartinput-number-group">
-                        <div class="cartinput-group-button">
-                            <span class="cartinput-number-decrement">-</span>
-                        </div>
-                        <input id="qtyinputGet" class="cartinput-number" type="number" value="1" min="0" max="1000">
-                        <div class="cartinput-group-button">
-                            <span class="cartinput-number-increment">+</span>
-                        </div>
-                        </div>
-        
-        
-                    </div>
+                    
                 </div>
             </div>
         </div>

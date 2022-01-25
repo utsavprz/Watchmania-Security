@@ -14,16 +14,10 @@ def updateItem(request):
     productId = data['productId']
     action = data['action']
 
-    print(productId)   
-    print(action)
-
     if(data['qty'] == "false"):
         pass
     else:
         qty = data['qty']
-    
-        
-    
 
     customer = request.user
     product = Products.objects.get(id=productId)

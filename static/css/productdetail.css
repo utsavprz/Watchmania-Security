@@ -104,12 +104,12 @@
   }
   
   .input-number-group .input-group-button {
-    line-height: calc(80px/2 - 13px);
+    line-height: calc(80px/2 - 18px);
   }
   
   .input-number-group .input-number {
-    width: 35px;
-    height: 30px !important;
+    width: 25px;
+    height: 25px !important;
     padding: 0 5px;
     vertical-align: top;
     text-align: center;
@@ -133,8 +133,8 @@
   .input-number-group .input-number-decrement,
   .input-number-group .input-number-increment {
     display: inline-block;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     border-radius: 5px;
     background: #e6e6e6;
     color: #0a0a0a;

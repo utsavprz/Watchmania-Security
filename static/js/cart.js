@@ -1,11 +1,29 @@
-let updateBtns = document.getElementsByClassName('update-cart')
 
+$('.cartinput-number-increment').click(function() {
+    var $input = $(this).parents('.cartinput-number-group').find('.cartinput-number');
+    var val = parseInt($input.val(), 10);
+    $input.val(val + 1);
+
+    });
+
+    $('.cartinput-number-decrement').click(function() {
+    var $input = $(this).parents('.cartinput-number-group').find('.cartinput-number');
+    var val = parseInt($input.val(), 10);
+    if (val >0){
+        $input.val(val - 1);
+
+    }
+    })
+
+let updateBtns = document.getElementsByClassName('update-cart')
 for(let i=0; i < updateBtns.length; i++){
 
     updateBtns[i].addEventListener('click', function(){
         let productId = this.dataset.product
         let action = this.dataset.action
         let qty = this.dataset.qty
+
+        
  
         if(user === 'AnonymousUser'){
             console.log('Not logged in')
@@ -15,10 +33,13 @@ for(let i=0; i < updateBtns.length; i++){
                     updateUserOrder(productId, action,qty)
                 }
                 else{
-                    qty = $('#qtyinputGet').val()
+                    qty= $('#qtyinputGet').val()
                     updateUserOrder(productId, action,qty)
                 }
         }
+        console.log('DataToSend:', productId)
+        console.log('DataToSend:', action)
+        console.log('DataToSend:', qty)
     })
 
 }
@@ -49,20 +70,7 @@ function updateUserOrder(productId,action,qty){
 
 }
 
-$('.cartinput-number-increment').click(function() {
-    var $input = $(this).parents('.cartinput-number-group').find('.cartinput-number');
-    var val = parseInt($input.val(), 10);
-    $input.val(val + 1);
-    });
 
-    $('.cartinput-number-decrement').click(function() {
-    var $input = $(this).parents('.cartinput-number-group').find('.cartinput-number');
-    var val = parseInt($input.val(), 10);
-    if ($input.val >0){
-
-        $input.val(val - 1);
-    }
-    })
 
     function validateForCheckout(){
 
