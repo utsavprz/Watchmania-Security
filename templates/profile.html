@@ -49,7 +49,10 @@
                         <input class="inputText" type="email" name="email" value="{{current_user.email}}" readonly>
                         <label class="profLabel" for="dob">Date of Birth</label>
                         <input class="inputText" type="text" name="dob" value="{{profileData.dob}}" readonly>
-                        <label class="profLabel" for="first_name">Phone Number</label>
+                        <div class="d-flex justify-content-between" style="min-height: 0;padding: 0;">
+                            <label class="profLabel" for="first_name">Phone number</label>
+                            <a href="">Verify</a>
+                        </div>
                         <input class="inputText" type="text" name="phone" value="{{profileData.phone}}" readonly>
                         <label class="profLabel" for="first_name">Delivery Address</label>
                         <input class="inputText" type="text" name="address" value="{{profileData.default_User_Address.address}} - {{profileData.default_User_Address.street}}" readonly>

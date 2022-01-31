@@ -5,14 +5,16 @@ Checkout
 
 
 {% block body %}
+
 <div class="Chkwrapper">
     <div id="Chkone">
         <div id="DisplayInfo" class="displayInfo">
             <h5>Shipping Information</h5>
             <hr>
             <div style="background-color: #fff;" class="p-0">
+                <form id='form' name="Form" method="post" action="javascript:void(0);">
+                    {% csrf_token %}
                 <div class="d-flex flex-column">
-                    <form id='form'>
                     <div class="d-flex justify-content-between p-0 flex-wrap">
                         <div class="ent1 p-0">
                             <label class="profLabel bold" for="first_name">First Name</label>
@@ -61,12 +63,12 @@ Checkout
                         <div class="d-flex justify-content-between p-0 flex-wrap">
                             <div class="ent1 p-0">
                                 <label class="profLabel bold" for="city">City</label>
-                                <input class="inputText borderInp" type="text" name="city" value="">
+                                <input class="inputText borderInp" type="text" name="city" value="" required>
                         
                             </div>
                             <div class="ent2 p-0">
                                 <label class="profLabel bold" for="address">Address</label>
-                                <input class="inputText borderInp" type="text" name="address"  value="">
+                                <input class="inputText borderInp" type="text" name="address"  value="" required>
                                 
     
                             </div>
@@ -75,12 +77,12 @@ Checkout
                         <div class="d-flex justify-content-between p-0 flex-wrap">
                             <div class="ent1street p-0">
                                 <label class="profLabel bold" for="street">Street</label>
-                                <input class="inputText borderInp" type="text" name="street"  value="">
+                                <input class="inputText borderInp" type="text" name="street"  value="" required>
                         
                             </div>
                             <div class="ent2zip p-0">
                                 <label class="profLabel bold" for="postalcode">Zipcode</label>
-                                <input class="inputText borderInp" type="text" name="postalcode" value="">
+                                <input class="inputText borderInp" type="text" name="postalcode" value="" required>
                                 
     
                             </div>
@@ -94,23 +96,31 @@ Checkout
                     <div class="d-flex justify-content-between p-0 flex-wrap">
                             <div class="ent1phone p-0">
                                 <label class="profLabel bold" for="phone">Phone</label>
-                            <input class="inputText borderInp" type="text" name="phone" value="" >
+                            <input class="inputText borderInp" type="text" name="phone" value="" required >
                         
                             </div>
                             <div class="ent2email p-0">
                                 <label class="profLabel bold" for="email">Email Address</label>
-                            <input class="inputText borderInp" type="text" name="email" value="{{customer.email}}" >
+                            <input class="inputText borderInp" type="text" name="email" value="{{customer.email}}" required>
                                 
                             </div>
                         </div>
+                        <h6 style="margin-top: 30px;">Payment Method</h6>
+                        <select style="width: 200px;" name="PaymentMethod" id="pm" onchange=getPmValue()>
+                                <option value="Cash on Delivery" name="Cash on Delivery">Cash on Delivery</option>
+                                <option value="Khalti" name="Khalti">Khalti</option>
+                        </select>
                             
-                            <button type="submit" id="payBtn" class="payBtn">Continue to Payment</button>
-                        </form>
-                </div>
+                            <button type="submit" id="payment-buttonCOD" class="payBtn">Place Order</button>
+                            <button id="payment-buttonKhalti" class="payBtn d-none" onclick=validate()>Continue to payment</button>
+                        </div>
+                    </form>
             </div>
             <div id="payment-box" class="payment-box d-none p-0">
             <div style="margin-top: 10px;" class="titleCtn d-flex align-items-center justify-content-between">
-                <h4 style="margin-left: 20px; margin-top: 10px;">Payment</h4>
+                <h4 style="margin-left: 20px; margin-top: 10px;">Payment</h4><br>
+                <button id="payment-button" onclick=KhaltiAPI()>Pay with Khalti</button>
+
             </div>
         </div>
                 </div>
@@ -166,21 +176,14 @@ Checkout
             रु{{order.get_cart_total}}
             </span></h4>
     </div>
-    </div>
-    </div>
 </div>
-
-<script>
-    let form = document.getElementById('form')
-
-    form.addEventListener('submit',function(e){
-        e.preventDefault()
-        console.log('form submitted')
-
-        document.getElementById('payBtn').classList.add('d-none')
-        document.getElementById('payment-box').classList.remove('d-none')
-    })
-
-</script>
-
+</div>
+</div>
+<div id="msgChk" class="msg-box d-none alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Hey!</strong> Please complete the shipping information.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
 {% endblock %}

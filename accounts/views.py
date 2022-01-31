@@ -41,7 +41,6 @@ def register(request):
 
     context ={
         'form':form,
-        'order':order,
     }
     return render(request, 'register.html',context)
 
@@ -124,12 +123,6 @@ def profile_update(request):
                 if dob =="":
                     dob=i.dob
             
-            print(first_name)
-            print(last_name)
-            print(email)
-            print(phone)
-            print(dob)
-
             
             if (userDetailModel.objects.filter(user_info = current_user.id).exists()):
                 User.objects.filter(id = current_user.id).update(first_name = first_name, last_name=last_name, email=email)

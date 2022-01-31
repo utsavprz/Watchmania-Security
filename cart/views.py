@@ -21,7 +21,7 @@ def updateItem(request):
 
     customer = request.user
     product = Products.objects.get(id=productId)
-    order, created = Order.objects.get_or_create(user_info = customer, complete=False)
+    order, created = Order.objects.get_or_create(user_info = customer,  complete=False)
 
     orderItem,created = OrderItem.objects.get_or_create(order=order,product=product)
 

@@ -38,13 +38,16 @@ def display(request):
     
     category = request.GET.get('category')
     current_user = request.user
+
     category_name = Category.objects.get(id=category)
+        
     allcategory = Category.objects.all()
    
     filteredProd = Products.objects.all()
 
     if category != None:
         filteredProd = Products.objects.filter(category = category)
+
 
     if request.user.is_authenticated:
         order, created = Order.objects.get_or_create(user_info = current_user, complete=False)

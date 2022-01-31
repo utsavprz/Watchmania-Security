@@ -1,16 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from accounts.models import User_Address
 from cart.models import Order
 from django.contrib.auth.decorators import login_required
 
 from product.models import Category
 
-# Create your views here.
-
-def saveShippingInformation():
-    print("here")
-
-
+# Create your views here. 
 @login_required
 def checkout(request):
     allcategory = Category.objects.all()
@@ -33,6 +29,25 @@ def checkout(request):
     else:
         addressExists=False
 
+    # checkout operation for COD
+    if request.method == 'POST':
+        ShippingData = request.POST 
+        user_info = customer
+        order = order.id
+        phone = ShippingData.get('phone')
+        email = ShippingData.get('email')
+        city = ShippingData.get('city')
+        address = ShippingData.get('address')
+        street = ShippingData.get('street')
+        postalcode = ShippingData.get('postalcode')
+        description = ShippingData.get('description')
+        
+        if ShippingData.get('PaymentMethod') == "Cash on Delivery":
+            print(ShippingData)
+            return redirect('index')
+
+    
+
     context={
         'allcategory':allcategory,
         'items':items,
@@ -43,3 +58,6 @@ def checkout(request):
         
     }
     return render(request,'checkout.html',context)
+
+def KhaltiRequestView(request):
+    return render(request,'khaltirequest.html')

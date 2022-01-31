@@ -33,6 +33,7 @@ urlpatterns = [
     path('checkout/', include('checkout.urls')),
     path('update_item/', cartView.updateItem,name="update_item"),
     path('searchResult',productView.searchResult,name="searched"),
+    #  path('default/', include('django.contrib.auth.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

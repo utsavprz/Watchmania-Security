@@ -5,4 +5,5 @@ from checkout import views
 
 urlpatterns = [
     path('',views.checkout,name="checkout"),
+    path('khalti-request',views.KhaltiRequestView,name="khaltirequest"),
 ]

@@ -6,10 +6,16 @@ from django.dispatch import receiver
 from django.conf import settings
 # Create your models here.
 
+
+METHOD =(
+    ("Cash on Delivery","Cash on Delivery"),
+    ("Khalti","Khalti")
+)
 class Order(models.Model):
     user_info = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date_ordered = models.DateTimeField(auto_now_add=True)
-    complete = models.BooleanField(default=False)
+    payment_method = models.CharField(max_length=20,choices=METHOD, default="Cash on Delivery")
+    complete = models.BooleanField(default=False,null=True,blank=True)
     transaction_id = models.CharField(max_length=100, null=True)
 
     @property
@@ -17,6 +23,7 @@ class Order(models.Model):
         orderitems = self.orderitem_set.all()
         total = sum([item.get_total for item in orderitems])
         return total
+        
 
     @property
     def get_cart_items(self):
