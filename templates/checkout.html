@@ -12,7 +12,7 @@ Checkout
             <h5>Shipping Information</h5>
             <hr>
             <div style="background-color: #fff;" class="p-0">
-                <form id='form' name="Form" method="post" action="javascript:void(0);">
+                <form id='form' name="Form" action="javascript:void(0);">
                     {% csrf_token %}
                 <div class="d-flex flex-column">
                     <div class="d-flex justify-content-between p-0 flex-wrap">
@@ -111,7 +111,7 @@ Checkout
                                 <option value="Khalti" name="Khalti">Khalti</option>
                         </select>
                             
-                            <button type="submit" id="payment-buttonCOD" class="payBtn">Place Order</button>
+                            <button id="payment-buttonCOD" class="payBtn" data-pm='COD'>Place Order</button>
                             <button id="payment-buttonKhalti" class="payBtn d-none" onclick=validate()>Continue to payment</button>
                         </div>
                     </form>
@@ -185,9 +185,59 @@ Checkout
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
+
+  
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
 <script>
+    var paymentCOD = document.getElementById('payment-buttonCOD')
+    paymentCOD.addEventListener('click', function(){
+        saveShippingInfo("COD")
+    })
+
+
+    function saveShippingInfo(pm){
+        var order = {{order}};
+        var phone = document.forms["Form"]["phone"].value;
+        var email = document.forms["Form"]["email"].value;
+        var city = document.forms["Form"]["city"].value;
+        var address = document.forms["Form"]["address"].value;
+        var street = document.forms["Form"]["street"].value;
+        var postalcode = document.forms["Form"]["postalcode"].value;
+        var description = document.forms["Form"]["description"].value;
+        var pm = pm
+
+        if (phone == "" || email == "" || city == "" || address == "" || street == "" || postalcode == "" || description == "") {
+            console.log("false")
+            document.getElementById('msgChk').classList.remove('d-none')
+        }
+        else{
+
+            $.ajax(
+                {
+                    type:'get',
+                    url:'saveShipping',
+                    data:{
+                        order: order,
+                        phone:phone,
+                        email:email,
+                        city:city,
+                        address:address, 
+                        street:street, 
+                        postalcode:postalcode, 
+                        description:description,
+                        pm:pm
+                    },
+                    success:function(){
+                        location.href="/paymentsuccess/"
+                        // alert("Data sent for saving")
+                    }
+                }
+            )
+        }
+    }
+
+
     function KhaltiAPI(){
         var config = {
             // replace the publicKey with yours
@@ -213,7 +263,8 @@ Checkout
                     }
                 }).then(function(resp){
                     if (resp.data.success == true){
-                        location.href="/paymentsuccess/" //this will redirect to your index
+                        saveShippingInfo("Khalti")
+                         //this will redirect to your index
                     }
                     else{
                         alert("Sorry, Error Occured. Please try again")
@@ -238,6 +289,7 @@ Checkout
                 checkout.show({amount: {{order.get_cart_total}}*100});
 
 }
+
 
 </script>
   {% endblock %}

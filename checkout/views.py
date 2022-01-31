@@ -1,9 +1,12 @@
+from ast import Continue
+import json
 from tokenize import Token
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from accounts.models import User_Address
 from cart.models import Order
+from checkout.models import ShippingAddress
 from django.contrib.auth.decorators import login_required
 
 import requests
@@ -67,7 +70,7 @@ def checkout(request):
 #     return render(request,'khaltirequest.html')
 
 def KhaltiVerifyView(request):
-    customer = request.user
+    
     token = request.GET.get("token")
     amount = request.GET.get("amount")
     o_id = request.GET.get("order_id") 
@@ -89,9 +92,6 @@ def KhaltiVerifyView(request):
 
     if response_dict.get("idx"):
         success = True
-        order.complete = True
-        order.payment_method = "Khalti"
-        order.save()
         
     else:
         success = False
@@ -103,3 +103,53 @@ def KhaltiVerifyView(request):
 
 def paymentSuccess(request):
     return render(request,'PaymentSuccess.html')
+
+def saveShippingData(request):
+    if request.method == "GET":
+
+        print("DATA RECEIVED")
+        o_id = request.GET.get('order')
+        phone = request.GET.get('phone')
+        email = request.GET.get('email')
+        city = request.GET.get('city')
+        address =request.GET.get('address')
+        street = request.GET.get('street')
+        postalcode = request.GET.get('postalcode')
+        description =request.GET.get('description')
+        pm = request.GET.get('pm')
+        customer = request.user
+        orderid = Order.objects.get(user_info = customer, complete=False)
+
+        getOrder = Order.objects.get(id = o_id)
+        print(pm)
+        print(customer)
+        print(orderid)
+        print(phone)
+        print(email)
+        print(city)
+        print(address)
+        print(street)
+        print(postalcode)
+        print(description)
+
+    
+    # saveData = ShippingAddress(user_info=customer,order = order, phone=phone, email=email, city=city,address=address,street=street,postalcode=postalcode,description=description)
+    # saveData.save()
+    if pm == "Khalti":
+        getOrder.complete = True
+        getOrder.payment_method = "Khalti"
+        getOrder.save()
+        dataSaved = "Saved PM: Khalti"
+    elif pm == "COD":    
+        getOrder.complete = True
+        getOrder.payment_method = "Cash on Delivery"
+        getOrder.save()
+        dataSaved = "Saved PM: COD"
+        
+    dataSaved=""
+
+    saveData = ShippingAddress(user_info=customer,orderid=orderid, phone=phone, email=email, city=city,address=address,street=street,postalcode=postalcode,description=description)
+    saveData.save()
+    
+
+    return JsonResponse(dataSaved, safe=False)
