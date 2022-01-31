@@ -205,13 +205,20 @@ Checkout
             "eventHandler": {
                 onSuccess (payload) {
             // hit merchant api for initiating verfication
-            axios.get("/khalti-verify/",{
-                params:{
-                    "token": payload.token,
-                    "amount":payload.amount,
-                    "order_id": "{{order.id}}"
-                }
-            }).then(function(resp){
+                axios.get("khalti-verify",{
+                    params:{
+                        "token": payload.token,
+                        "amount":payload.amount,
+                        "order_id": "{{order.id}}"
+                    }
+                }).then(function(resp){
+                    if (resp.data.success == true){
+                        location.href="/paymentsuccess/" //this will redirect to your index
+                    }
+                    else{
+                        alert("Sorry, Error Occured. Please try again")
+                        location.href="{{request.build_absolute_url}}"
+                    }
                 console.log(resp.data)
             })
             console.log(payload);

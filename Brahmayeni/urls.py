@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 
 from product import views as productView
 from cart import views as cartView
+from checkout import views as checkoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,6 +34,7 @@ urlpatterns = [
     path('checkout/', include('checkout.urls')),
     path('update_item/', cartView.updateItem,name="update_item"),
     path('searchResult',productView.searchResult,name="searched"),
+    path('paymentsuccess/',checkoutView.paymentSuccess,name="paymentsuccess"),
     #  path('default/', include('django.contrib.auth.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

@@ -16,7 +16,7 @@ class Order(models.Model):
     date_ordered = models.DateTimeField(auto_now_add=True)
     payment_method = models.CharField(max_length=20,choices=METHOD, default="Cash on Delivery")
     complete = models.BooleanField(default=False,null=True,blank=True)
-    transaction_id = models.CharField(max_length=100, null=True)
+    transaction_id = models.CharField(max_length=100, blank=True, null=True)
 
     @property
     def get_cart_total(self):

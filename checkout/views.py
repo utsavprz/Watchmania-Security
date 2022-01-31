@@ -1,9 +1,12 @@
+from tokenize import Token
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from accounts.models import User_Address
 from cart.models import Order
 from django.contrib.auth.decorators import login_required
+
+import requests
 
 from product.models import Category
 
@@ -64,12 +67,39 @@ def checkout(request):
 #     return render(request,'khaltirequest.html')
 
 def KhaltiVerifyView(request):
+    customer = request.user
     token = request.GET.get("token")
     amount = request.GET.get("amount")
-    o_id = request.GET.get("order_id")  
+    o_id = request.GET.get("order_id") 
 
     print(token ,amount,o_id)
+
+    url = "https://khalti.com/api/v2/payment/verify/"
+    payload = {
+    "token": token,
+    "amount": amount
+    }
+    headers = {
+    "Authorization": "Key test_secret_key_90007f7bfd9d46ca9e8c7ce8d2802119"
+    }
+
+    order = Order.objects.get(id=o_id)
+    response = requests.post(url, payload, headers = headers)
+    response_dict = response.json()
+
+    if response_dict.get("idx"):
+        success = True
+        order.complete = True
+        order.payment_method = "Khalti"
+        order.save()
+        
+    else:
+        success = False
+
     data={
-        "success":True
+        "success":success
     }
     return JsonResponse(data)
+
+def paymentSuccess(request):
+    return render(request,'PaymentSuccess.html')
