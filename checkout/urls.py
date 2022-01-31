@@ -5,5 +5,5 @@ from checkout import views
 
 urlpatterns = [
     path('',views.checkout,name="checkout"),
-    path('khalti-request',views.KhaltiRequestView,name="khaltirequest"),
+    path('khalti-verify',views.KhaltiVerifyView,name="khaltiverify"),
 ]

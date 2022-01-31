@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from accounts.models import User_Address
@@ -59,5 +60,16 @@ def checkout(request):
     }
     return render(request,'checkout.html',context)
 
-def KhaltiRequestView(request):
-    return render(request,'khaltirequest.html')
+# def KhaltiRequestView(request):
+#     return render(request,'khaltirequest.html')
+
+def KhaltiVerifyView(request):
+    token = request.GET.get("token")
+    amount = request.GET.get("amount")
+    o_id = request.GET.get("order_id")  
+
+    print(token ,amount,o_id)
+    data={
+        "success":True
+    }
+    return JsonResponse(data)
