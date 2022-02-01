@@ -1,5 +1,6 @@
 from ast import Continue
 import json
+from multiprocessing import context
 from tokenize import Token
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -10,6 +11,14 @@ from checkout.models import ShippingAddress
 from django.contrib.auth.decorators import login_required
 
 import requests
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+from django.core.mail import send_mail
+from django.template.loader import get_template
+from django.template import Context
+
+from django.contrib import messages
+
 
 from product.models import Category
 
@@ -36,25 +45,6 @@ def checkout(request):
     else:
         addressExists=False
 
-    # checkout operation for COD
-    if request.method == 'POST':
-        ShippingData = request.POST 
-        user_info = customer
-        order = order.id
-        phone = ShippingData.get('phone')
-        email = ShippingData.get('email')
-        city = ShippingData.get('city')
-        address = ShippingData.get('address')
-        street = ShippingData.get('street')
-        postalcode = ShippingData.get('postalcode')
-        description = ShippingData.get('description')
-        
-        if ShippingData.get('PaymentMethod') == "Cash on Delivery":
-            print(ShippingData)
-            return redirect('index')
-
-    
-
     context={
         'allcategory':allcategory,
         'items':items,
@@ -65,9 +55,6 @@ def checkout(request):
         
     }
     return render(request,'checkout.html',context)
-
-# def KhaltiRequestView(request):
-#     return render(request,'khaltirequest.html')
 
 def KhaltiVerifyView(request):
     
@@ -101,8 +88,14 @@ def KhaltiVerifyView(request):
     }
     return JsonResponse(data)
 
-def paymentSuccess(request):
-    return render(request,'PaymentSuccess.html')
+def paymentSuccess(request,orderID,pm):
+
+    getOrder = Order.objects.get(id = orderID)
+    context={
+        'getOrder':getOrder,
+        'pm':pm,
+    }
+    return render(request,'PaymentSuccess.html',context)
 
 def saveShippingData(request):
     if request.method == "GET":
@@ -121,35 +114,60 @@ def saveShippingData(request):
         orderid = Order.objects.get(user_info = customer, complete=False)
 
         getOrder = Order.objects.get(id = o_id)
-        print(pm)
-        print(customer)
-        print(orderid)
-        print(phone)
-        print(email)
-        print(city)
-        print(address)
-        print(street)
-        print(postalcode)
-        print(description)
+        # print(pm)
+        # print(customer)
+        # print(orderid)
+        # print(phone)
+        # print(email)
+        # print(city)
+        # print(address)
+        # print(street)
+        # print(postalcode)
+        # print(description)
 
-    
-    # saveData = ShippingAddress(user_info=customer,order = order, phone=phone, email=email, city=city,address=address,street=street,postalcode=postalcode,description=description)
-    # saveData.save()
+    dataSaved=""
     if pm == "Khalti":
         getOrder.complete = True
         getOrder.payment_method = "Khalti"
         getOrder.save()
+
+        saveData = ShippingAddress(user_info=customer,orderid=orderid, phone=phone, email=email, city=city,address=address,street=street,postalcode=postalcode,description=description)
+        saveData.save()
+
         dataSaved = "Saved PM: Khalti"
+
+
+        subject, from_email, to = 'Order has been received', f'{settings.EMAIL_HOST_USER}', f'{email}'
+        text_content = f'Hi {customer.username}'
+        html_content = f'<p>Thank you for ordering from Bramhayeni Grocery Store.Your Payment of <strong>रु{getOrder.get_cart_total}</strong> has been received.</p><br> <p>The order has been processed to be delivered to your shipping address</p>'
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+
+
     elif pm == "COD":    
         getOrder.complete = True
         getOrder.payment_method = "Cash on Delivery"
         getOrder.save()
-        dataSaved = "Saved PM: COD"
-        
-    dataSaved=""
 
-    saveData = ShippingAddress(user_info=customer,orderid=orderid, phone=phone, email=email, city=city,address=address,street=street,postalcode=postalcode,description=description)
-    saveData.save()
-    
+        saveData = ShippingAddress(user_info=customer,orderid=orderid, phone=phone, email=email, city=city,address=address,street=street,postalcode=postalcode,description=description)
+        saveData.save()
+        messages.info(request, 'Please wait while order is being processed')
+
+        dataSaved = "Saved PM: COD"    
+
+        htmly     = get_template('checkoutMail.html')
+
+        d = {
+             'customer': customer,
+            'getOrderTotal':getOrder.get_cart_total
+            }
+
+        subject, from_email, to = 'Order has been received', f'{settings.EMAIL_HOST_USER}', f'{email}'
+        text_content = f'Hi {customer.username}'
+        html_content = htmly.render(d)
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
 
     return JsonResponse(dataSaved, safe=False)

@@ -1,5 +1,3 @@
-
-
 function validate(){
     var first_name = document.forms["Form"]["first_name"].value;
     var last_name = document.forms["Form"]["last_name"].value;

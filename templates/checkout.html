@@ -185,6 +185,7 @@ Checkout
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
+  
 
   
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -194,6 +195,8 @@ Checkout
     paymentCOD.addEventListener('click', function(){
         saveShippingInfo("COD")
     })
+
+    
 
 
     function saveShippingInfo(pm){
@@ -206,6 +209,7 @@ Checkout
         var postalcode = document.forms["Form"]["postalcode"].value;
         var description = document.forms["Form"]["description"].value;
         var pm = pm
+        var orderID = {{order.id}}
 
         if (phone == "" || email == "" || city == "" || address == "" || street == "" || postalcode == "" || description == "") {
             console.log("false")
@@ -229,7 +233,13 @@ Checkout
                         pm:pm
                     },
                     success:function(){
-                        location.href="/paymentsuccess/"
+                        console.log("Checkout Success")
+                        if (pm == "COD"){
+                            location.href="/paymentsuccess/"+orderID+"/"+1
+                        }
+                        else if (pm == "Khalti"){
+                            location.href="/paymentsuccess/"+orderID+"/"+0
+                        }
                         // alert("Data sent for saving")
                     }
                 }
