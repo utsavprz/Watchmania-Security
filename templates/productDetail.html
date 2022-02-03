@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-product detail
+{{allProducts.name}}
 {% endblock %}
 
 
@@ -31,7 +31,25 @@ product detail
             </div>
             <div class="ProdAction tp-margin d-flex justify-content-between">
                 <div class="cartBtn d-flex justify-content-center align-items-center">
+                    {% if user.is_authenticated %}
+                    {% if allProducts.available == True %}
                     <button id="addTocart" data-product="{{allProducts.id}}" data-action="addWithQty" data-qty="1" class="addToCart update-cart">Add to Cart</button>
+
+                        {% else %}
+                            <button class="outOfStock" disa>Out of Stock</button>
+                        {% endif %}
+                        {% else %}
+                            <form style="width: 100%;" action="/accounts/login">
+                                {% if allProducts.available == True %}
+                                <button class="addToCart">Add to Cart</button>
+                                {% else %}
+                                <button class="outOfStock" disabled>Out of Stock</button>
+                                {% endif %}
+                            
+                                
+                                </form>
+                        {% endif %}
+                    
                 </div>
                 <div style="margin-top: -5px;" class="num-counter d-flex justify-content-center align-items-center">
                     <div class="input-group input-number-group">
@@ -85,12 +103,23 @@ product detail
             <div class="ProdAction d-flex justify-content-between">
                 <div class="cartBtn d-flex justify-content-center align-items-center">
                     {% if user.is_authenticated %}
-                        <button id="addTocart" data-product="{{product.id}}" data-action="addWithQty" data-qty="1" class="addToCart update-cart">Add to Cart</button>
-                    {% else %}
-                        <form style="width: 100%;" action="/accounts/login">
-                            <button class="addToCart">Add to Cart</button>
-                            </form>
-                    {% endif %}
+                    {% if product.available == True %}
+                        <button id="addTocart" data-product="{{product.id}}" data-action="add" class="addToCart update-cart">Add to Cart</button>
+
+                        {% else %}
+                            <button class="outOfStock" disa>Out of Stock</button>
+                        {% endif %}
+                        {% else %}
+                            <form style="width: 100%;" action="/accounts/login">
+                                {% if product.available == True %}
+                                <button class="addToCart">Add to Cart</button>
+                                {% else %}
+                                <button class="outOfStock" disabled>Out of Stock</button>
+                                {% endif %}
+                            
+                                
+                                </form>
+                        {% endif %}
                 </div>
                 <div class="wishlistCtn d-flex align-items-center justify-content-center">
                     

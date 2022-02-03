@@ -34,20 +34,41 @@ def searchResult(request):
     }
     return render(request,'searchResult.html',context)
 
-def display(request):
-    
-    category = request.GET.get('category')
+def categoryDisplay(request,cat_id):
     current_user = request.user
+    category_name = Category.objects.get(id=cat_id)
 
-    category_name = Category.objects.get(id=category)
-        
     allcategory = Category.objects.all()
    
     filteredProd = Products.objects.all()
 
     if category != None:
-        filteredProd = Products.objects.filter(category = category)
+        filteredProd = Products.objects.filter(category = cat_id)
 
+
+    if request.user.is_authenticated:
+        order, created = Order.objects.get_or_create(user_info = current_user, complete=False)
+    else:
+        order = {
+            'get_cart_total':0,
+            'get_cart_items':0
+        }
+
+    context = {
+        'filteredProd':filteredProd,
+        'category_name': category_name,
+        'allcategory':allcategory,
+        'order':order,
+    }  
+
+    return render (request, 'display.html',context)
+
+def display(request):
+    current_user = request.user
+
+    allcategory = Category.objects.all()
+   
+    filteredProd = Products.objects.all()
 
     if request.user.is_authenticated:
         order, created = Order.objects.get_or_create(user_info = current_user, complete=False)
@@ -58,7 +79,6 @@ def display(request):
         }
     context = {
         'filteredProd':filteredProd,
-        'category_name': category_name,
         'allcategory':allcategory,
         'order':order,
     }     

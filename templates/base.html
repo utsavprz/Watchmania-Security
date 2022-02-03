@@ -79,7 +79,7 @@
                   <div class="cat-list" id="style-1">
 
                         {% for cat in allcategory %}
-                        <a href="{% url 'display' %}?category={{cat.id}}"><div>{{cat.name}}</div></a>
+                        <a href="/products/category/{{cat.id}}?name={{cat.name}}"><div>{{cat.name}}</div></a>
                         {% endfor %}
                 </div>
                 </div>    

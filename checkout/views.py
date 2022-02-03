@@ -10,6 +10,8 @@ from cart.models import Order
 from checkout.models import ShippingAddress
 from django.contrib.auth.decorators import login_required
 
+import datetime
+
 import requests
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
@@ -97,6 +99,7 @@ def paymentSuccess(request,orderID,pm):
     }
     return render(request,'PaymentSuccess.html',context)
 
+
 def saveShippingData(request):
     if request.method == "GET":
 
@@ -111,19 +114,12 @@ def saveShippingData(request):
         description =request.GET.get('description')
         pm = request.GET.get('pm')
         customer = request.user
+        current_date = datetime.date.today()  
         orderid = Order.objects.get(user_info = customer, complete=False)
 
         getOrder = Order.objects.get(id = o_id)
-        # print(pm)
-        # print(customer)
-        # print(orderid)
-        # print(phone)
-        # print(email)
-        # print(city)
-        # print(address)
-        # print(street)
-        # print(postalcode)
-        # print(description)
+
+        items = getOrder.orderitem_set.all()
 
     dataSaved=""
     if pm == "Khalti":
@@ -137,9 +133,23 @@ def saveShippingData(request):
         dataSaved = "Saved PM: Khalti"
 
 
+        htmly     = get_template('checkoutMail.html')
+
+        d = {
+             'customer': customer,
+             'o_id':o_id,
+             'getOrderTotal':getOrder.get_cart_total,
+             'current_date':current_date,
+             'pm':pm,
+             'city':city,
+             'address': address,
+             'street':street,
+             'items':items,
+            }
+
         subject, from_email, to = 'Order has been received', f'{settings.EMAIL_HOST_USER}', f'{email}'
         text_content = f'Hi {customer.username}'
-        html_content = f'<p>Thank you for ordering from Bramhayeni Grocery Store.Your Payment of <strong>रु{getOrder.get_cart_total}</strong> has been received.</p><br> <p>The order has been processed to be delivered to your shipping address</p>'
+        html_content = htmly.render(d)
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
         msg.attach_alternative(html_content, "text/html")
         msg.send()
@@ -152,7 +162,6 @@ def saveShippingData(request):
 
         saveData = ShippingAddress(user_info=customer,orderid=orderid, phone=phone, email=email, city=city,address=address,street=street,postalcode=postalcode,description=description)
         saveData.save()
-        messages.info(request, 'Please wait while order is being processed')
 
         dataSaved = "Saved PM: COD"    
 
@@ -160,7 +169,14 @@ def saveShippingData(request):
 
         d = {
              'customer': customer,
-            'getOrderTotal':getOrder.get_cart_total
+             'o_id':o_id,
+             'getOrderTotal':getOrder.get_cart_total,
+             'current_date':current_date,
+             'pm':pm,
+             'city':city,
+             'address': address,
+             'street':street,
+             'items':items,
             }
 
         subject, from_email, to = 'Order has been received', f'{settings.EMAIL_HOST_USER}', f'{email}'

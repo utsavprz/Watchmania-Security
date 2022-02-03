@@ -33,12 +33,23 @@
             <div class="ProdAction d-flex justify-content-between">
                 <div class="cartBtn d-flex justify-content-center align-items-center">
                     {% if user.is_authenticated %}
-                        <button id="addTocart" data-product="{{schproduct.id}}" data-action="add" class="addToCart update-cart">Add to Cart</button>
-                    {% else %}
-                        <form style="width: 100%;" action="/accounts/login">
-                            <button class="addToCart">Add to Cart</button>
-                            </form>
-                    {% endif %}
+                    {% if schproduct.available == True %}
+                        <button id="addTocart" data-product="{{schproduct.id.id}}" data-action="add" class="addToCart update-cart">Add to Cart</button>
+
+                        {% else %}
+                            <button class="outOfStock" disa>Out of Stock</button>
+                        {% endif %}
+                        {% else %}
+                            <form style="width: 100%;" action="/accounts/login">
+                                {% if schproduct.available == True %}
+                                <button class="addToCart">Add to Cart</button>
+                                {% else %}
+                                <button class="outOfStock" disabled>Out of Stock</button>
+                                {% endif %}
+                            
+                                
+                                </form>
+                        {% endif %}
                 </div>
                 <div class="wishlistCtn d-flex align-items-center justify-content-center">
                     
