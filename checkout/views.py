@@ -134,17 +134,19 @@ def saveShippingData(request):
         getOrder.payment_method = "Khalti"
         getOrder.paid = True
         getOrder.save()
+        
+        saveData = ShippingAddress(user_info=customer,orderid=orderid, phone=phone, email=email, city=city,address=address,street=street,postalcode=postalcode,description=description)
+        saveData.save()
 
         saveDelivery=Delivery(o_id = getOrder, deliveryDate=getDeliveryDate(2))
         saveDelivery.save()
 
         delv = Delivery.objects.get(o_id=getOrder)
+        adrs = ShippingAddress.objects.get(orderid=getOrder)
 
-        savemyOrder=MyOrder(user_info=customer,o_id = getOrder,delivery=delv)
+        savemyOrder=MyOrder(user_info=customer,o_id = getOrder,delivery=delv,address=adrs)
         savemyOrder.save()
 
-        saveData = ShippingAddress(user_info=customer,orderid=orderid, phone=phone, email=email, city=city,address=address,street=street,postalcode=postalcode,description=description)
-        saveData.save()
 
         dataSaved = "Saved PM: Khalti"
 
@@ -176,16 +178,17 @@ def saveShippingData(request):
         getOrder.payment_method = "Cash on Delivery"
         getOrder.save()
 
+        saveData = ShippingAddress(user_info=customer,orderid=orderid, phone=phone, email=email, city=city,address=address,street=street,postalcode=postalcode,description=description)
+        saveData.save()
+
         saveDelivery=Delivery(o_id = getOrder,deliveryDate=getDeliveryDate(2))
         saveDelivery.save()
 
         delv = Delivery.objects.get(o_id=getOrder)
+        adrs = ShippingAddress.objects.get(orderid=getOrder)
 
-        savemyOrder=MyOrder(user_info=customer,o_id = getOrder,delivery=delv)
+        savemyOrder=MyOrder(user_info=customer,o_id = getOrder,delivery=delv,address=adrs)
         savemyOrder.save()
-
-        saveData = ShippingAddress(user_info=customer,orderid=orderid, phone=phone, email=email, city=city,address=address,street=street,postalcode=postalcode,description=description)
-        saveData.save()
 
         dataSaved = "Saved PM: COD"    
 

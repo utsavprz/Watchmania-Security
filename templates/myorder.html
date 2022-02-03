@@ -10,33 +10,13 @@
             <span id="totalOrderPrice" style="color: #1EA43A; font-size: 14px;">
             {{orders.o_id}}
            </span></h4>
-            <form action="{% url 'cartIndex' %}">
-                <button style="background-color: #4284F5; color: #fff; width: 120px;" class="backCart">View Products→</button>
-            </form>
 
-
-                <!-- <h4 style="font-size: 13px; text-transform: none;">PayMethod:
-                    <span id="totalOrderPrice" style="color: #1EA43A; font-size: 13px;">
-                        {{orders.o_id.payment_method}}
-                    </span></h4>
-    
-                    <h4 style="font-size: 13px; text-transform: none;">DeliveryDate:
-                        <span id="totalOrderPrice" style="color: #1EA43A; font-size: 13px;">
-                                    {{orders.delivery.deliveryDate.date}}
-                        </span></h4>
-    
-                        <h4 style="font-size: 13px; text-transform: none;">DeliveryStatus:
-                            <span id="totalOrderPrice" style="color: #1EA43A; font-size: 13px;">
-                                        {% if orders.delivery.delivered == True %}
-                                            <h6 style="display: inline; color: rgb(59, 131, 240); font-size: 13px;">Delivered</h6>
-                                            {% else %}
-                                            <h6 style="display: inline; color: rgb(240, 43, 43); font-size: 13px;">Not Delivered</h6>
-                                            {% endif %}
-                            </span></h4> --> 
-
+            <a href="{% url 'orderedProducts' orders.o_id %}"><button style="background-color: #4284F5; color: #fff; width: 120px;" class="backCart">View Products→</button></a>
     
         </div>
+        
         <table>
+
             <thead>
               <tr>
                 <th scope="col">Payment Method</th>
@@ -47,23 +27,10 @@
                 <th scope="col">Total</th>
               </tr>
             </thead>
-        </table>
-    
-    <table>
-        <!-- <thead>
-          <tr>
-            <th scope="col"></th>
-            <th scope="col">Product</th>
-            <th scope="col">Price</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Total</th>
-            <th scope="col"></th>
-          </tr>
-        </thead> -->
         <tbody>
           <tr>
-            <td data-label="Payment Method">{{orders.o_id.payment_method}}</td>
-            <td data-label="Ordered Date">{{orders.delivery.deliveryDate.date}}</td>
+            <td class="first-child" data-label="Payment Method">{{orders.o_id.payment_method}}</td>
+            <td data-label="Ordered Date">{{orders.address.date_added.date}}</td>
             <td data-label="Delivery Date">{{orders.delivery.deliveryDate.date}}</td>
             <td data-label="Delivery Status">
                 {% if orders.delivery.delivered == True %}
@@ -89,4 +56,5 @@
     </table>
        {% endfor %}
     </div>
+
 {% endblock %}
