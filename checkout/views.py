@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from accounts.models import User_Address
-from cart.models import Order
+from cart.models import Delivery, Order
 from checkout.models import ShippingAddress
 from django.contrib.auth.decorators import login_required
 
@@ -20,6 +20,8 @@ from django.template.loader import get_template
 from django.template import Context
 
 from django.contrib import messages
+from myorder.models import MyOrder
+from myorder.views import myOrder
 
 
 from product.models import Category
@@ -97,7 +99,12 @@ def paymentSuccess(request,orderID,pm):
         'getOrder':getOrder,
         'pm':pm,
     }
-    return render(request,'PaymentSuccess.html',context)
+    return render(request,'PaymentSuccess.html',context)\
+
+def getDeliveryDate(days):
+    newDate = datetime.date.today() + datetime.timedelta(days=days)
+    return newDate
+
 
 
 def saveShippingData(request):
@@ -125,7 +132,16 @@ def saveShippingData(request):
     if pm == "Khalti":
         getOrder.complete = True
         getOrder.payment_method = "Khalti"
+        getOrder.paid = True
         getOrder.save()
+
+        saveDelivery=Delivery(o_id = getOrder, deliveryDate=getDeliveryDate(2))
+        saveDelivery.save()
+
+        delv = Delivery.objects.get(o_id=getOrder)
+
+        savemyOrder=MyOrder(user_info=customer,o_id = getOrder,delivery=delv)
+        savemyOrder.save()
 
         saveData = ShippingAddress(user_info=customer,orderid=orderid, phone=phone, email=email, city=city,address=address,street=street,postalcode=postalcode,description=description)
         saveData.save()
@@ -159,6 +175,14 @@ def saveShippingData(request):
         getOrder.complete = True
         getOrder.payment_method = "Cash on Delivery"
         getOrder.save()
+
+        saveDelivery=Delivery(o_id = getOrder,deliveryDate=getDeliveryDate(2))
+        saveDelivery.save()
+
+        delv = Delivery.objects.get(o_id=getOrder)
+
+        savemyOrder=MyOrder(user_info=customer,o_id = getOrder,delivery=delv)
+        savemyOrder.save()
 
         saveData = ShippingAddress(user_info=customer,orderid=orderid, phone=phone, email=email, city=city,address=address,street=street,postalcode=postalcode,description=description)
         saveData.save()

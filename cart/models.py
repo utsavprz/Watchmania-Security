@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from product.models import Products
@@ -16,7 +17,7 @@ class Order(models.Model):
     date_ordered = models.DateTimeField(auto_now_add=True)
     payment_method = models.CharField(max_length=20,choices=METHOD, default="Cash on Delivery")
     complete = models.BooleanField(default=False,null=True,blank=True)
-    transaction_id = models.CharField(max_length=100, blank=True, null=True)
+    paid = models.BooleanField(default=False,null=True,blank=True)
 
     @property
     def get_cart_total(self):
@@ -47,4 +48,15 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+class Delivery(models.Model):
+    o_id = models.ForeignKey(Order, on_delete=models.CASCADE)
+    deliveryDate = models.DateTimeField(blank=True)
+    delivered = models.BooleanField(default=False,null=True,blank=True)
+    deliveredDate = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return str(self.o_id)
+
+
 

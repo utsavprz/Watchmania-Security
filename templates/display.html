@@ -37,7 +37,7 @@ Product Display
                 <div class="cartBtn d-flex justify-content-center align-items-center">
                     {% if user.is_authenticated %}
                         {% if schproduct.available == True %}
-                            <button id="addTocart" data-product="{{schproduct.id.id}}" data-action="add" class="addToCart update-cart">Add to Cart</button>
+                            <button id="addTocart" data-product="{{schproduct.id}}" data-action="add" class="addToCart update-cart">Add to Cart</button>
 
                             {% else %}
                                 <button class="outOfStock" disa>Out of Stock</button>

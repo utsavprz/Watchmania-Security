@@ -46,7 +46,7 @@
                           <h6>Hello! {{current_user.first_name}}</h6>
                           <a href="{% url 'profile' %}">Account</a>
                           <a href="#">Wishlist</a>
-                          <a href="#">My Order</a>
+                          <a href="{% url 'myOrder' %}">My Order</a>
                           <a href="#">Cancelled Order</a>
                           <a class="logoutUser" href="{% url 'logout' %}">Logout</a>
                         </div>

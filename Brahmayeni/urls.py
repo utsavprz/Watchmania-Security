@@ -31,6 +31,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('products/', include('product.urls')),
     path('cart/', include('cart.urls')),
+    path('myorder/', include('myorder.urls')),
     path('checkout/', include('checkout.urls')),
     path('update_item/', cartView.updateItem,name="update_item"),
     path('searchResult',productView.searchResult,name="searched"),

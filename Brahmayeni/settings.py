@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ["*","192.168.1.28"]
 INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'product.apps.ProductConfig',
+    'myorder',
     'cart.apps.CartConfig',
     'checkout.apps.CheckoutConfig',
     'accounts.apps.AccountsConfig',
