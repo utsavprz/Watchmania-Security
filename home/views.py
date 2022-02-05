@@ -1,6 +1,6 @@
 from random import random
 from django.http.response import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.shortcuts import redirect
 from cart.models import Order
 from product.models import Category, Products, featuredProduct

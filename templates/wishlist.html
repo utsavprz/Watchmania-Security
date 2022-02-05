@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}
+Cart
+{% endblock %}
+{% block body %}
+<div class="tb-container">
+    <div class="titleCtn extramargin d-flex align-items-center justify-content-between">
+        <h4>Wishlist ( {{countWishlist}} )</h4>
+    </div>
+
+    <table>
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Product</th>
+            <th scope="col">Price</th>
+            <th scope="col"></th>
+
+          </tr>
+        </thead>
+        {% for item in wishList%}
+        <tbody>
+          <tr>
+            <td data-label="">
+                <div class="img-container">
+                           <a href="/products/productDetail/{{item.product.id}}"> <img src="{{item.image.url}}" alt="{{item.name}}"> </a> 
+                </div>
+            </td>
+            <td data-label="Product">{{item.name}}</td>
+            <td data-label="Price">रु{{item.price}}</td>
+            <td data-label="">
+                <form style="width: 100%;" action="{% url 'detail' item.id %}">
+                    {% csrf_token %}
+                    <button style="color: rgb(43, 121, 237); cursor: pointer;" class="favoriteBtn" type="submit">View Product</button>
+                </form>
+                <form style="width: 100%;" action="{% url 'favoritethis' item.id %}" method="POST">
+                    {% csrf_token %}
+                    <button style="color: red;cursor: pointer;" name="allProducts.id" value="{{ item.id }}" class="favoriteBtn" type="submit">Remove</button>
+                </form>
+            </td>
+
+            
+          </tr>
+          
+        </tbody>
+        {% endfor %}
+    </table>
+    </div>
+{% endblock %}

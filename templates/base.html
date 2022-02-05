@@ -46,7 +46,7 @@
                         <div id="dropdown-content" class="dropdown-content hide">
                           <h6>Hello! {{current_user.first_name}}</h6>
                           <a href="{% url 'profile' %}">Account</a>
-                          <a href="#">Wishlist</a>
+                          <a href="{% url 'wishlist' %}">Wishlist</a>
                           <a href="{% url 'myOrder' %}">My Order</a>
                           <a href="#">Cancelled Order</a>
                           <a class="logoutUser" href="{% url 'logout' %}">Logout</a>
@@ -103,6 +103,7 @@
     <script type="text/javascript" src="{% static 'js/productDetail.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/checkout.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/myorder.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/favorite.js' %}"></script>
     <script>
         let user = '{{request.user}}'
 

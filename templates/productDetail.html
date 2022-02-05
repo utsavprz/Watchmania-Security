@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
 {{allProducts.name}}
 {% endblock %}
@@ -16,8 +17,30 @@
   
     <div class="item product-det d-flex align-items-center">
         <div class="prod-detail d-flex flex-column justify-content-center">
-
+            <div class="d-flex justify-content-between">
             <h1>{{allProducts.name}}</h1>
+            <div style="width: 90px;">
+                {% if user.is_authenticated %}
+                {% if favorite_status %}
+                    <form style="width: 100%;" action="{% url 'favoritethis' allProducts.id %}" method="POST">
+                        {% csrf_token %}
+                        <button name="allProducts.id" value="{{ allProducts.id }}" class="favoriteBtn" type="submit"><img src="{% static 'wishlisted.png' %}" title="Added to Wishlist"></button>
+                    </form>
+                {% else %}
+                    <form style="width: 100%;" action="{% url 'favoritethis' allProducts.id %}" method="POST">
+                        {% csrf_token %}
+                        <button name="allProducts.id" value="{{ allProducts.id }}" class="favoriteBtn" type="submit"><img  src="{% static 'wishlist.png' %}" title="Add to Wishlist"></button>
+                    </form>
+                    {% endif %}
+
+                    {% else %}
+                    <form style="width: 100%;text-align: center;" action="/accounts/login">
+                        <button class="favoriteBtn"><img src="{% static 'wishlist.png' %}" alt=""></button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+
             <div class="sm-ft d-flex flex-column justify-content-around">
                 <p>Brand: <a href="">{{allProducts.brand.name}}</a>  </p>
             </div>
@@ -29,6 +52,7 @@
             <div class="prod-price">
                 <h2>रु{{allProducts.price}}</h2>
             </div>
+
             <div class="ProdAction tp-margin d-flex justify-content-between">
                 <div class="cartBtn d-flex justify-content-center align-items-center">
                     {% if user.is_authenticated %}

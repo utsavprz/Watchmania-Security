@@ -36,6 +36,8 @@ urlpatterns = [
     path('update_item/', cartView.updateItem,name="update_item"),
     path('searchResult',productView.searchResult,name="searched"),
     path('paymentsuccess/<int:orderID>/<int:pm>',checkoutView.paymentSuccess,name="paymentsuccess"),
+    path('favoritethis/<int:p_id>', productView.favoritethis,name="favoritethis"),
+
     
     
     #  path('default/', include('django.contrib.auth.urls')),

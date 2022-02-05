@@ -85,6 +85,7 @@ def profile(request):
             addressData = User_Address.objects.filter(user_info = current_user.id)[0]
             addressExists=True
         else:
+            addressData = []
             addressExists=False
         
 
@@ -96,14 +97,14 @@ def profile(request):
             'get_cart_items':0
             }   
 
-        context={
-            'profileData': profileData,
-            'current_user': current_user,
-            'addressExists':addressExists,
-            'addressData':addressData,
-            'order':order,
+    context={
+        'profileData': profileData,
+        'current_user': current_user,
+        'addressExists':addressExists,
+        'addressData':addressData,
+        'order':order,
 
-        }
+    }
     return render(request,'profile.html',context)
 
 def profile_update(request):

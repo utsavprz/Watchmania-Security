@@ -112,9 +112,7 @@ Home
                                     </form>
                             {% endif %}
                         </div>
-                        <div class="wishlistCtn d-flex align-items-center justify-content-center">
-                            
-                        </div>
+                        
                     </div>
                 </div>
             {% endfor %}
@@ -125,7 +123,27 @@ Home
 
             
 
-    
+    <script>
+        let favBtns = document.getElementsByClassName('favoriteBtn')
+        for(let i=0; i < favBtns.length; i++){
+
+
+                favBtns[i].addEventListener('click', function(){
+                let productId = this.dataset.product
+                $.ajax(
+                {
+                    type:'get',
+                    url:'favoritethis',
+                    data:{
+                        productId:productId
+                    },
+                    success:function(){
+                        console.log("Sent prodID")
+                }
+            }
+            )
+            })
+        }         
+
+    </script>
     {% endblock %}
-</body>
-</html>

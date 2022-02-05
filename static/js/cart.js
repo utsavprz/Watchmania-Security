@@ -37,9 +37,9 @@ for(let i=0; i < updateBtns.length; i++){
                     updateUserOrder(productId, action,qty)
                 }
         }
-        console.log('DataToSend:', productId)
-        console.log('DataToSend:', action)
-        console.log('DataToSend:', qty)
+        // console.log('DataToSend:', productId)
+        // console.log('DataToSend:', action)
+        // console.log('DataToSend:', qty)
     })
 
 }

@@ -152,10 +152,13 @@
   .input-number-group .input-number-increment {
     margin-left: 0.3rem;
   }
-  
-  
-
-  
+  .favoriteBtn{
+    border: 0;
+    background-color: rgba(30, 164, 59, 0);
+  }
+  .favoriteBtn:focus{
+    outline: none;
+  }
 
   @media only screen and (max-width: 769px) {
     .prod-detail h1{
