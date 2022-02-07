@@ -37,7 +37,8 @@ urlpatterns = [
     path('searchResult',productView.searchResult,name="searched"),
     path('paymentsuccess/<int:orderID>/<int:pm>',checkoutView.paymentSuccess,name="paymentsuccess"),
     path('favoritethis/<int:p_id>', productView.favoritethis,name="favoritethis"),
-
+    path('delivery-panel/', include('deliveryPanel.urls')),
+    path('admin-panel/', include('adminPanel.urls')),
     
     
     #  path('default/', include('django.contrib.auth.urls')),
