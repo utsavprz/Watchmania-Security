@@ -23,7 +23,7 @@ Cart
           <tr>
             <td data-label="">
                 <div class="img-container">
-                           <a href="/products/productDetail/{{item.product.id}}"> <img src="{{item.image.url}}" alt="{{item.name}}"> </a> 
+                           <a href="{% url 'detail' item.id %}"> <img src="{{item.image.url}}" alt="{{item.name}}"> </a> 
                 </div>
             </td>
             <td data-label="Product">{{item.name}}</td>

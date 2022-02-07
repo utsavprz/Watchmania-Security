@@ -1,0 +1,37 @@
+{% extends 'Admin/adminPanel.html' %}
+{% load static %}
+
+{% block body %}
+<h1>Add Brand</h1>
+{% load crispy_forms_tags %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+              {{form|crispy}}
+            </div>
+            <button class="btn btn-success" type="submit">Add Brand</button>
+          </form>
+    </div>
+    <div class="col">
+        <h3>Brand List</h3>
+        <ul style="height: 60vh; overflow-y: scroll;" class="list-group list-group-flush">
+            {% for brand in brands %}
+            <div class="d-flex justify-content-between align-items-center " style="padding-left:15px; padding-right:15px; border-bottom: 0.2px solid rgb(211, 211, 211);">
+                <li class="list-group-item">{{brand}}</li>
+                <a href="{% url 'brandDelete' brand.id %}">Delete</a>
+            </div>
+            {% endfor %}
+          </ul>
+    </div>
+  </div>
+  </div>
+
+
+
+{% endblock %}

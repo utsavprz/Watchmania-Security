@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate,logout
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User, Group
 from django.contrib import messages
-from product.forms import productForm
+from product.forms import brandForm, categoryForm, productForm
 
 from product.models import Brand, Category, Products
 
@@ -62,6 +62,28 @@ def logoutAdmin(request):
     logout(request)
     return redirect('adminpanelLogin')
 
+def productAdd(request):
+    categories = Category.objects.all()
+    brands = Brand.objects.all()
+
+
+    if request.method == 'POST':
+        form = productForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save()
+            print('form save')
+            return redirect('adminproducts')
+    else:
+        form = productForm()
+
+    context={
+        'categories':categories,
+        'brands':brands,
+        'form':form,
+    }
+
+    return render(request,'Admin/prodAdd.html',context)
 
 
 def productEdit(request,prodId):
@@ -89,3 +111,54 @@ def productEdit(request,prodId):
     }
 
     return render(request,'Admin/prodEdit.html',context)
+
+
+def addCategory(request):
+    categories = Category.objects.all()
+
+    if request.method == 'POST':
+        form = categoryForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            print('form save')
+            return redirect('categoryAdd')
+    else:
+        form = categoryForm()
+
+    context={
+        'categories':categories,
+        'form':form,
+    }
+
+    return render(request, 'Admin/categoryAdd.html', context)
+
+def delCategory(request,catId):
+    Category.objects.filter(id=catId).delete()
+    return redirect('categoryAdd')
+
+
+
+def addBrand(request):
+    brands = Brand.objects.all()
+
+    if request.method == 'POST':
+        form = brandForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            print('form save')
+            return redirect('brandAdd')
+    else:
+        form = brandForm()
+
+    context={
+        'brands':brands,
+        'form':form,
+    }
+
+    return render(request, 'Admin/brandAdd.html', context)
+
+def delBrand(request,brandId):
+    Brand.objects.filter(id=brandId).delete()
+    return redirect('brandAdd')
