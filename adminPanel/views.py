@@ -1,4 +1,7 @@
 from importlib.resources import contents
+from itertools import product
+from tkinter.tix import Tree
+from unicodedata import category
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -6,8 +9,9 @@ from django.contrib.auth import authenticate,logout
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User, Group
 from django.contrib import messages
+from product.forms import productForm
 
-from myorder.models import MyOrder
+from product.models import Brand, Category, Products
 
 # Create your views here.
 def adminpanelLogin(request):
@@ -34,20 +38,54 @@ def adminpanelLogin(request):
                 else:
                     messages.info(request, "*Enter username and password")
             else:
-                return redirect('Admin/adminpanelLogin')
-    return render(request,'adminLogin.html')
+                return redirect('adminpanelLogin')
+    return render(request,'Admin/adminLogin.html')
+
 
 @login_required(login_url='adminpanelLogin')
-def adminpanel(request):
+def adminHome(request):
 
-    getOrders = MyOrder.objects.all()
+    return render(request,'Admin/adminHome.html')
+
+@login_required(login_url='adminpanelLogin')
+def adminProducts(request):
+
+    allProducts = Products.objects.all()
 
     context={
-        'getOrders':getOrders,
+        'allProducts':allProducts,
     }
 
-    return render(request,'Admin/adminpanel.html',context)
+    return render(request,'Admin/adminProducts.html',context)
 
 def logoutAdmin(request):
     logout(request)
     return redirect('adminpanelLogin')
+
+
+
+def productEdit(request,prodId):
+    prodDetail = Products.objects.get(id=prodId)
+
+    categories = Category.objects.all()
+    brands = Brand.objects.all()
+
+
+    if request.method == 'GET':
+        form = productForm(request.GET, request.FILES, instance=prodDetail)
+
+        if form.is_valid():
+            form.save()
+            print('form save')
+            return redirect('adminproducts')
+    else:
+        form = productForm(instance=prodDetail)
+
+    context={
+        'prodDetail':prodDetail,
+        'categories':categories,
+        'brands':brands,
+        'form':form,
+    }
+
+    return render(request,'Admin/prodEdit.html',context)

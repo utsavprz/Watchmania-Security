@@ -9,13 +9,13 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
-        return f'{self.id} - {self.name}'
+        return f'{self.name}'
 
 class Brand(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
-        return f'{self.id} - {self.name}'   
+        return f'{self.name}'   
 
 class Products(models.Model):
     name = models.CharField(max_length=200)
