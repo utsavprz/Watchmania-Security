@@ -45,8 +45,8 @@ for(let i=0; i < updateBtns.length; i++){
 }
 
 function updateUserOrder(productId,action,qty){
-    console.log('User Logged in,','Sending data...')
-    console.log('productId:', productId , 'action:', action,'qty:', qty)
+    // console.log('User Logged in,','Sending data...')
+    // console.log('productId:', productId , 'action:', action,'qty:', qty)
     let url = '/update_item/'
 
     fetch(url,{
@@ -65,7 +65,6 @@ function updateUserOrder(productId,action,qty){
     .then((data) => {
         console.log('data:', data)
         location.reload()
-
     })
 
 }

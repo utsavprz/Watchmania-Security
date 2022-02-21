@@ -47,6 +47,7 @@ def checkout(request):
         addressData = User_Address.objects.filter(user_info = customer.id)[0]
         addressExists=True
     else:
+        addressData=[]
         addressExists=False
 
     context={

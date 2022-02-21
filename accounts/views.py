@@ -1,8 +1,8 @@
 from platform import python_version_tuple
 from django.shortcuts import redirect
+from django.contrib import messages
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from accounts.models import User_Address
@@ -39,9 +39,9 @@ def register(request):
                 
     
 
-    context ={
-        'form':form,
-    }
+        context ={
+            'form':form,
+        }
     return render(request, 'register.html',context)
 
 def login(request): 

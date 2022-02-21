@@ -33,7 +33,7 @@ class Products(models.Model):
         return self.favorite.count()
 
     def __str__(self):
-        return f'({self.name} - {self.category})'
+        return f'({self.id}-{self.name} - {self.category})'
 
 class featuredProduct(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE)

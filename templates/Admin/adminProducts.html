@@ -50,7 +50,8 @@
                         {% csrf_token %}
                         <button class="btn btn-primary">Edit</button>
                     </form>
-                    <form action="">
+                    <form method="post" action="productDelete/{{product.id}}">
+                        {% csrf_token %}
                         <button class="btn btn-danger">Delete</button>
                     </form>
                 </td>

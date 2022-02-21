@@ -1,5 +1,7 @@
-from django.test import SimpleTestCase, TestCase
+from ast import arg
+from django.test import Client, SimpleTestCase, TestCase
 from django.urls import resolve, reverse
+from django.contrib.auth.models import User
 
 from home.views import index
 from product.views import detail
@@ -9,11 +11,7 @@ from product.views import detail
 class TestUrls(SimpleTestCase):
     def test_case_index_url(self):
         url=reverse('index')
+        print(url)
         self.assertEqual(resolve(url).func,index)
 
-        
 
-class TestDetailsUrls(SimpleTestCase):
-    def test_case_detail_url(self):
-        url=reverse('detail',args=[1])
-        self.assertEqual(resolve(url).func,detail)

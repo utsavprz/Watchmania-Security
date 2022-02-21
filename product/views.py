@@ -90,7 +90,7 @@ def display(request):
     return render (request, 'display.html',context)
 
 def detail(request,item_id):
-    allProducts = Products.objects.get(pk=item_id)
+    allProducts = get_object_or_404(Products, pk=item_id)
     allcategory = Category.objects.all()
     current_user = request.user
 
@@ -127,13 +127,11 @@ def detail(request,item_id):
 
 def favoritethis(request,p_id):
     product = get_object_or_404(Products, id=request.POST.get('allProducts.id'))
-    favorite_status = False
     if product.favorite.filter(id=request.user.id).exists():
         product.favorite.remove(request.user)
-        favorite_status=False
+
     else:
         product.favorite.add(request.user)
-        favorite_status=True
 
     return HttpResponseRedirect(reverse('wishlist'))
 

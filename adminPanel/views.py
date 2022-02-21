@@ -73,6 +73,7 @@ def productAdd(request):
         if form.is_valid():
             form.save()
             print('form save')
+            print('success')
             return redirect('adminproducts')
     else:
         form = productForm()
@@ -112,6 +113,9 @@ def productEdit(request,prodId):
 
     return render(request,'Admin/prodEdit.html',context)
 
+def productDelete(request,prodId):
+    Products.objects.get(id=prodId).delete()
+    return redirect('adminproducts')
 
 def addCategory(request):
     categories = Category.objects.all()
