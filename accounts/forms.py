@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 from accounts.models import User_Address
 from accounts.models import user_details
+from captcha.fields import CaptchaField
 
 class CreateUserForm(UserCreationForm):
     class Meta:
@@ -21,3 +22,8 @@ class User_Address(forms.ModelForm):
     class Meta:
         model = User_Address
         fields = "__all__"
+
+class LoginForm(forms.Form):
+    username = forms.CharField(label='Username', max_length=100)
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
+    captcha = CaptchaField()

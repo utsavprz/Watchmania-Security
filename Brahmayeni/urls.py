@@ -24,6 +24,8 @@ from django.conf.urls.static import static
 from product import views as productView
 from cart import views as cartView
 from checkout import views as checkoutView
+from home import views as homeView
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -39,6 +41,12 @@ urlpatterns = [
     path('favoritethis/<int:p_id>', productView.favoritethis,name="favoritethis"),
     path('delivery-panel/', include('deliveryPanel.urls')),
     path('admin-panel/', include('adminPanel.urls')),
+    path('session_timeout/', homeView.session_timeout, name='session_timeout'),
+    path('password-reset/', auth_views.PasswordResetView.as_view(template_name='password_reset.html'), name='password_reset'),
+    path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'), name='password_reset_done'),
+    path('password-reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'), name='password_reset_confirm'),
+    path('password-reset/complete/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
+    path('captcha/', include('captcha.urls')),
     
     
     #  path('default/', include('django.contrib.auth.urls')),

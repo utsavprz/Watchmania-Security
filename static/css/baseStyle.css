@@ -50,7 +50,7 @@ body{
     position: fixed !important;
     top: 0;
     height: 50px;
-    background-color: #121920;
+    background-color: #0a0a0a;
     z-index: 9999;
     width: 100%;
 }

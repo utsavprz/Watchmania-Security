@@ -1,11 +1,15 @@
 from datetime import datetime
+import os
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from product.models import Products
 from django.db.models.signals import pre_save,post_save
 from django.dispatch import receiver
-from django.conf import settings
+
+from cryptography.fernet import Fernet
 # Create your models here.
+
 
 
 METHOD =(
@@ -35,11 +39,15 @@ class Order(models.Model):
     def __str__(self):
         return str(self.id)
 
+
+
+
 class OrderItem(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE,null=True)
-    quantity = models.IntegerField(default=0,null=True,blank=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
+    quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    encrypted_product = models.CharField(max_length=900, null=True, blank=True)
 
     @property
     def get_total(self):
@@ -48,6 +56,7 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return str(self.id)
+    
 
 class Delivery(models.Model):
     o_id = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -57,6 +66,3 @@ class Delivery(models.Model):
 
     def __str__(self):
         return str(self.o_id)
-
-
-

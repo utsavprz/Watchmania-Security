@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'jquery',
     'widget_tweaks',
     'crispy_forms',
+    'encrypted_field',
+    'captcha',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -59,7 +61,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
 ]
+# Session expiration: A session should have a time limit or expiration period to prevent 
+# unauthorized access to the user's data when staying idle for more than 2 minutes. When a 
+# session expires, the user is required to log in again to continue using the application.
+SESSION_EXPIRE_SECONDS = 320
+
+SESSION_TIMEOUT_REDIRECT = '/session_timeout/'
+
 
 ROOT_URLCONF = 'Brahmayeni.urls'
 
@@ -81,6 +91,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Brahmayeni.wsgi.application'
 
+ENCRYPTION_KEY = b'zHXyGPjK-m_mXsbWodtWuWD5sJkD8MvR_KJr6oQnPXw='
+
+
+
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -88,7 +102,7 @@ WSGI_APPLICATION = 'Brahmayeni.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'brahmayeni',
+        'NAME': 'watchmania',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': '127.0.0.1',
@@ -152,3 +166,23 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "bramhayanigrocery@gmail.com"
 EMAIL_HOST_PASSWORD = "tqsahgniatjvlgao"
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename':os.path.join(BASE_DIR, 'audit_log_file.log'),  # Change this path to your desired log file
+        },
+    },
+    'loggers': {
+        'audit_logger': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}

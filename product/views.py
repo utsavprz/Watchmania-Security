@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render, get_object_or_404
 from cart.models import Order
 
-from product.models import Category, Products
+from product.models import Category, Products, Review
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -158,3 +158,30 @@ def wishlistView(request):
     return render(request,'wishlist.html',context)
 
 
+
+
+
+@login_required
+def add_review(request, item_id):
+    current_user = request.user
+    product = get_object_or_404(Products, pk=item_id)
+    
+    # Check if the user has placed an order for the given product
+    order = Order.objects.filter(user_info=current_user, complete=True, orderitem__product=product).first()
+    
+    if order is None:
+        # If the user hasn't purchased the product, redirect to a page with an error message
+        return render(request, 'review_error.html')
+
+    if request.method == 'POST':
+        rating = request.POST.get('rating')
+        comment = request.POST.get('comment')
+
+        # Create a new review object
+        review = Review.objects.create(product=product, user=current_user, rating=rating, comment=comment)
+        review.save()
+
+        # Redirect to the product detail page
+        return HttpResponseRedirect(reverse('detail', args=(item_id,)))
+
+    return render(request, 'add_review.html')

@@ -29,3 +29,7 @@ def index(request):
         'order':order,
     }
     return render(request,'home.html',context)
+
+
+def session_timeout(request):
+    return render(request, 'session_timeout.html')

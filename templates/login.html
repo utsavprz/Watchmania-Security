@@ -7,37 +7,152 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/loginStyle.css' %}">
-    <title>Document</title>
+    <style>
+        /* Error Box Styles */
+        .error-box{
+            position: absolute;
+            bottom: 60px;
+            right: 0;
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            display: none;
+        }
+        .form-error-box{
+            position: absolute;
+            bottom: 5px;
+            right: 0;
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            display: none;
+        }
+
+        .error-box p, .form-error-box p {
+            margin: 0 0 5px;
+        }
+
+        .error-box ul, .form-error-box ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .error-box li, .form-error-box li {
+            margin-bottom: 5px;
+        }
+
+        .error-box.active, .form-error-box.active {
+            display: block;
+        }
+    </style>
+    <title>Login</title>
 </head>
 <body>
-
-      <div class=" login container">
+    <div class="login container">
         <div class="title">Web Grocery | Log in</div>
         <div class="content">
-          <form method="POST">
-            {% csrf_token %}
-            <div class="user-details d-flex flex-column">
-              <div class="input-box">
-                <span class="details">Username</span>
-                <input type="text" name="username" placeholder="Enter your name" required>
-              </div>
-              <div class="input-box">
-                <span class="details">Password</span>
-                <input type="password" name="password" placeholder="Enter your password" required>
-              </div>
-              
-            </div>
-
-            <div class="button">
-              <input type="submit" value="Log in">
-              <a href="{% url 'register' %}">Don't have an account? Register</a>
-            </div>
-          </form>
+            {% if messages %}
+        <!-- Display all error messages -->
+        {% for message in messages %}
+        <div class="error-box active">
+            <ul>
+                <li>{{ message }}</li>
+            </ul>
         </div>
-      </div>
+        {% endfor %}
+        {% endif %}
+            <form method="POST">
+                {% csrf_token %}
+                <div class="user-details d-flex flex-column">
+                    <div class="input-box">
+                        <span class="details">Username</span>
+                        <input type="text" name="username" placeholder="Enter your name" required>
+                        {% if form.errors.username %}
+                            <!-- Error handling for username -->
+                            <div class="form-error-box active">
+                                <ul>
+                                    {% for error in form.errors.username %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Password</span>
+                        <input type="password" name="password" placeholder="Enter your password" required>
+                        {% if form.errors.password %}
+                            <!-- Error handling for password -->
+                            <div class="form-error-box active">
+                                <ul>
+                                    {% for error in form.errors.password %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if show_captcha %}
+                        <div class="input-box">
+                            <span class="details">Captcha</span>
+                            {{ form.captcha }}
+                           
+                            {% if form.captcha.errors %}
+                                <!-- Error handling for captcha -->
+                                <div class="form-error-box active">
+                                    <ul>
+                                        {% for error in form.captcha.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="button">
+                    <input type="submit" value="Log in">
+                    <a href="{% url 'register' %}">Don't have an account? Register</a>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script>
+        // JavaScript for showing the error box for 3 seconds
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if the error box contains messages
+            const errorBox = document.querySelector('.error-box');
+            if (errorBox && errorBox.querySelector('ul').children.length > 0) {
+                errorBox.classList.add('active');
 
-	</script>
+                // Set a timeout to hide the error box after 3 seconds
+                setTimeout(function () {
+                    errorBox.classList.remove('active');
+                }, 3000);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if the error box contains messages
+            const errorBox = document.querySelector('.form-error-box');
+            if (errorBox && errorBox.querySelector('ul').children.length > 0) {
+                errorBox.classList.add('active');
+
+                // Set a timeout to hide the error box after 3 seconds
+                setTimeout(function () {
+                    errorBox.classList.remove('active');
+                }, 3000);
+            }
+        });
+    </script>
 </body>
 </html>
