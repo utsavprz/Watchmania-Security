@@ -59,14 +59,11 @@ def login(request):
 
     if request.method == 'POST':
         form = LoginForm(request.POST)
-
         # Check if the username and password are provided
         if not form.has_error('username') and not form.has_error('password'):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-
             user = authenticate(request, username=username, password=password)
-
             # If the user is valid, log them in
             if user is not None:
                 try:
@@ -89,7 +86,6 @@ def login(request):
                                 LoginAttempts.objects.filter(user=user).delete()
                                 audit_logger.info(f'{timezone.now()} - LoginAttempt - {username} - Success')
                                 return redirect('index') 
-                
                     else:
                         if not form.has_error('username') and not form.has_error('password'):
                             auth_login(request, user)
@@ -105,7 +101,6 @@ def login(request):
                             LoginAttempts.objects.filter(user=user).delete()
                             audit_logger.info(f'{timezone.now()} - LoginAttempt - {username} - Success')
                             return redirect('index')
-
             else:
                 try:
                     login_attempt = LoginAttempts.objects.get(user__username=username)
@@ -113,7 +108,6 @@ def login(request):
                         login_attempt.attempts += 1
                         login_attempt.last_attempt_time = timezone.now()
                         login_attempt.save()
-
                         if max_attempts - login_attempt.attempts != 0:
                             messages.error(request, f'Your credentials are incorrect, you have {max_attempts - login_attempt.attempts} attempts left.')
                             audit_logger.info(f'{timezone.now()} - LoginAttempt - {username}, Failed attempt {login_attempt.attempts}')
@@ -133,12 +127,10 @@ def login(request):
                 except LoginAttempts.DoesNotExist:
                     # If this is the first login attempt, create a new instance
                     login_attempt = LoginAttempts.objects.create(user=User.objects.get(username=username), attempts=1)
-
         else:
             # Form is invalid, no need to manually add errors to the form
             # The errors will be displayed using messages.error
             pass
-
     else:
         form = LoginForm()
 
