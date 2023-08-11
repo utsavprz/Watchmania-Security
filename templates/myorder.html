@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="tb-container">
+    <div class="titleCtn extramargin d-flex align-items-center justify-content-between">
+        <h4>My Order</h4>
+    </div>
+    {% for orders in myorder%}
+    <div style="height: auto;" class="titleCtn d-flex align-items-center justify-content-between p-3 flex-wrap">
+        <h4 style="font-size: 14px; text-transform: none;">Order no.
+            <span id="totalOrderPrice" style="color: #1EA43A; font-size: 14px;">
+            {{orders.o_id}}
+           </span></h4>
+
+            <a href="{% url 'orderedProducts' orders.o_id %}"><button style="background-color: #4284F5; color: #fff; width: 120px;" class="backCart">View Products→</button></a>
+    
+        </div>
+        
+        <table>
+
+            <thead>
+              <tr>
+                <th scope="col">Payment Method</th>
+                <th scope="col">Ordered Date</th>
+                <th scope="col">Delivery Date</th>
+                <th scope="col">Delivery Status</th>
+                <th scope="col">Payment</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+        <tbody>
+          <tr>
+            <td class="first-child" data-label="Payment Method">{{orders.o_id.payment_method}}</td>
+            <td data-label="Ordered Date">{{orders.address.date_added.date}}</td>
+            <td data-label="Delivery Date">{{orders.delivery.deliveryDate.date}}</td>
+            <td data-label="Delivery Status">
+                {% if orders.delivery.delivered == True %}
+                <h6 style="display: inline; color: rgb(59, 131, 240); font-size: 13px;">Delivered</h6>
+                {% else %}
+                <h6 style="display: inline; color: rgb(240, 43, 43); font-size: 13px;">Not Delivered</h6>
+                {% endif %}
+            </td>
+            <td data-label="Payment">
+                {% if orders.o_id.paid == True %}
+                <h6 style="display: inline; color: rgb(0, 157, 0); font-size: 13px;">Paid</h6>
+                {% else %}
+                <h6 style="display: inline; color: rgb(240, 43, 43); font-size: 13px;">Unpaid</h6>
+                {% endif %}
+            </td>
+            <td data-label="Total">रु{{orders.o_id.get_cart_total}}</td>
+            <!-- <td data-label=""><a style="color: red; cursor:pointer;" class="update-cart" data-product="{{item.product.id}}" data-action="deleteItem">Remove</a></td> -->
+
+            
+          </tr>
+          
+        </tbody>
+    </table>
+       {% endfor %}
+    </div>
+
+{% endblock %}

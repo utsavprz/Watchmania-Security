@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+ .main-detail {
+    background-color: rgb(255, 255, 255);
+    max-width: 100%;
+    /* height:400px; */
+    margin: 30px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .extramargin-main-detail{
+    margin-top: 60px;
+}
+  
+  .item {
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  
+  .product-img,
+  .product-det{
+      width: 100%;
+      display: flex;
+      height: inherit;
+      justify-content: center;
+        flex: 1;
+  }
+  
+
+  .prod-detail {
+    width: 100%;
+    height: 100%;
+    /* background-color: blue; */
+  }
+  .prod-img-container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 400px;
+      height: 400px;
+      background-color: rgb(255, 255, 255);
+  }
+  .prod-detail h1{
+    font-size: 30px;
+    font-family: 'Poppins', sans-serif;
+    }
+.sm-ft{
+    margin-top: 10px;
+    /* background-color: red; */
+    font-size: 16px;
+}
+.sm-ft p:first-child{
+    margin-bottom: 5px;
+}
+
+  .prod-img-container img{
+      width: 80%;
+      height: 80%;
+  }
+
+
+  .prod-desc{
+      width: 80%;
+      height: auto;
+      /* background-color: red; */
+  }
+  .prod-desc p{
+      font-size: 14px;
+  }
+  .prod-price h2{
+      margin-top: 10px;
+      color: #1EA43A;
+      font-size: 32px;
+  }
+  .tp-margin{
+      width:80%;
+      margin-top: 40px;
+  }
+
+  .tp-margin button{
+      font-size: 14px;
+      height: 45px;
+  }
+
+.num-counter{
+    width: 40%;
+    /* background-color: red; */
+    margin-top: -15px;
+}
+.input-number-group {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  
+  .input-number-group input[type=number]::-webkit-inner-spin-button,
+  .input-number-group input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+            appearance: none;
+  }
+  
+  .input-number-group .input-group-button {
+    line-height: calc(80px/2 - 18px);
+  }
+  
+  .input-number-group .input-number {
+    width: 25px;
+    height: 25px !important;
+    padding: 0 5px;
+    vertical-align: top;
+    text-align: center;
+    outline: none;
+    display: block;
+    margin: 0;
+  }
+  
+  .input-number-group .input-number,
+  .input-number-group .input-number-decrement,
+  .input-number-group .input-number-increment {
+    border: 1px solid #cacaca;
+    height: 40px;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    border-radius: 0;
+  }
+  
+  .input-number-group .input-number-decrement,
+  .input-number-group .input-number-increment {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    background: #e6e6e6;
+    color: #0a0a0a;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+  
+  .input-number-group .input-number-decrement {
+    margin-right: 0.3rem;
+  }
+  
+  .input-number-group .input-number-increment {
+    margin-left: 0.3rem;
+  }
+  .favoriteBtn{
+    border: 0;
+    background-color: rgba(30, 164, 59, 0);
+  }
+  .favoriteBtn:focus{
+    outline: none;
+  }
+
+  @media only screen and (max-width: 769px) {
+    .prod-detail h1{
+        font-size: 24px;
+
+        }
+    .product-img {
+        flex-basis: 100%;
+      }
+      .prod-detail{
+        padding-top: 40px;
+    }
+    .tp-margin{
+        margin-top: 30px;
+    }
+    .num-counter{
+        width:45%;
+        margin-left: 10px;
+        /* background-color: red; */
+        margin-top: -15px;
+    }
+    .ProductCard{
+        width: 170px;
+        height: 270px;
+        /* background-color: rgb(253, 8, 8); */
+        border-radius: 3px;
+        padding: 10px;
+        margin-right: 5px;
+    }
+    .ProdImg{
+        width: 70%;
+        height: 120px;
+        /* background-color: green; */
+        margin: 0 auto;
+        text-align: center;
+    }
+  }
+
+  @media only screen and (max-width: 426px) {
+      .main-detail{
+          margin: 0 auto;
+      }
+  }

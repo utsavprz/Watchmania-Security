@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    <title>Document</title>
+</head>
+<body>
+    {% block body %}
+    <div class="wrapper">
+        <div id="one">
+            <div id="DisplayInfo" class="displayInfo">
+                <h3>User Profile</h3>
+                <hr>
+                {% if profileData == False %}
+                    <div class="d-flex flex-column">
+                        <label class="profLabel" for="first_name">Username</label>
+                        <input class="inputText" type="text" name="username" value="{{current_user}}" readonly>
+                        <label class="profLabel" for="first_name">First Name</label>
+                        <input class="inputText" type="text" name="first_name" value="{{current_user.first_name}}" readonly>
+                        <label class="profLabel" for="first_name">Last Name</label>
+                        <input class="inputText" type="text" name="last_name" value="{{current_user.last_name}}" readonly>
+                        <label class="profLabel" for="first_name">Email</label>
+                        <input class="inputText" type="text" name="email" value="{{current_user.email}}" readonly>
+                        <label class="profLabel" for="dob">Date of Birth</label>
+                        <input class="inputText" type="date" name="dob" value="Update your DOB" readonly>
+                        <label class="profLabel" for="first_name">Phone Number</label>
+                        <input class="inputText" type="text" name="phone" value="Update your phone number" readonly>
+                        <label class="profLabel" for="first_name">Delivery Address</label>
+                        <input class="inputText" type="text" name="address" value="Update your Address" readonly>
+                        
+                        <button onclick="editprof()">Edit Profile</button>
+                    </div>
+                {% else %}
+                    {% for profileData in profileData %}
+                    <div class="d-flex flex-column">
+                        <label class="profLabel" for="first_name">Username</label>
+                        <input class="inputText" type="text" name="username" value="{{current_user}}" readonly>
+                        <label class="profLabel" for="first_name">First Name</label>
+                        <input class="inputText" type="text" name="first_name" value="{{current_user.first_name}}" readonly>
+                        <label class="profLabel" for="first_name">Last Name</label>
+                        <input class="inputText" type="text" name="last_name" value="{{current_user.last_name}}" readonly>
+                        <label class="profLabel" for="first_name">Email</label>
+                        <input class="inputText" type="email" name="email" value="{{current_user.email}}" readonly>
+                        <label class="profLabel" for="dob">Date of Birth</label>
+                        <input class="inputText" type="text" name="dob" value="{{profileData.dob}}" readonly>
+                        <div class="d-flex justify-content-between" style="min-height: 0;padding: 0;">
+                            <label class="profLabel" for="first_name">Phone number</label>
+                            <a href="">Verify</a>
+                        </div>
+                        <input class="inputText" type="text" name="phone" value="{{profileData.phone}}" readonly>
+                        <label class="profLabel" for="first_name">Delivery Address</label>
+                        <input class="inputText" type="text" name="address" value="{{profileData.default_User_Address.address}} - {{profileData.default_User_Address.street}}" readonly>
+                        
+                        <button onclick="editprof()">Edit Profile</button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+    
+            <div id="EditInfo" class="EditInfo hide">
+                <h3>Edit Profile</h3>
+                    <hr>
+                {% if profileData == False %}
+                <form action="profile_update" method="POST">
+                    {% csrf_token %}
+                    <div class="d-flex flex-column">
+    
+                        <label class="profLabel" for="first_name">First Name</label>
+                        <input class="inputText" type="text" name="first_name" value="{{current_user.first_name}}">
+                        <label class="profLabel" for="first_name">Last Name</label>
+                        <input class="inputText" type="text" name="last_name" value="{{current_user.last_name}}">
+                        <label class="profLabel" for="first_name">Email</label>
+                        <input class="inputText" type="text" name="email" value="{{current_user.email}}">
+                        <label class="profLabel" for="dob">Date of Birth</label>
+                        <input class="inputText" type="date" name="dob" value="{{profileData.dob}}">
+                        <label class="profLabel" for="first_name">Phone Number</label>
+                        <input class="inputText" type="text" name="phone">
+                        <button type="submit">Update</button>
+                    </div>
+                </form>
+                {% else %}
+                    {% for profileData in profileData %}
+                    <form action="profile_update" method="POST">
+                        {% csrf_token %}
+                    <div class="d-flex flex-column">
+                        <label class="profLabel" for="first_name">First Name</label>
+                        <input class="inputText" type="text" name="first_name" value="{{current_user.first_name}}">
+                        <label class="profLabel" for="first_name">Last Name</label>
+                        <input class="inputText" type="text" name="last_name" value="{{current_user.last_name}}">
+                        <label class="profLabel" for="first_name">Email</label>
+                        <input class="inputText" type="text" name="email" value="{{current_user.email}}">
+                        <label class="profLabel" for="dob">Date of Birth</label>
+                        <input class="inputText" type="date" name="dob" value="{{profileData.dob}}">
+                        <label class="profLabel" for="first_name">Phone Number</label>
+                        <input class="inputText" type="text" name="phone" value="{{profileData.phone}}">
+                        <button type="submit">Update</button>
+                    </div>
+                    </form>
+                
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div id="two">
+            {% if addressExists == False %}
+            <h3>Address Information</h3>
+            <hr>
+                    <form action="addAddress" method="POST">
+                        {% csrf_token %}
+                        <div class="d-flex flex-column">
+                            <label class="profLabel" for="city">City</label>
+                            <input class="inputText" type="text" name="city">
+                            <label class="profLabel" for="address">Address</label>
+                            <input class="inputText" type="text" name="address">
+                            <label class="profLabel" for="street">Street</label>
+                            <input class="inputText" type="text" name="street">
+                            <label class="profLabel" for="postalcode">Zipcode</label>
+                            <input class="inputText" type="text" name="postalcode">
+                            <label class="profLabel" for="description">Description</label>
+                            <input class="inputText" type="text" name="description">
+
+                            <button type="submit">Add Address</button>
+                        </div>
+                    </form>
+            {% else %}
+            <h3>Edit Address</h3>
+            <hr>
+                    <form action="updateAddress" method="POST">
+                        {% csrf_token %}
+                        <div class="d-flex flex-column">
+                            <label class="profLabel" for="city">City</label>
+                            <input class="inputText" type="text" name="city" value="{{addressData.city}}">
+                            <label class="profLabel" for="address">Address</label>
+                            <input class="inputText" type="text" name="address"  value="{{addressData.address}}">
+                            <label class="profLabel" for="street">Street</label>
+                            <input class="inputText" type="text" name="street"  value="{{addressData.street}}">
+                            <label class="profLabel" for="postalcode">Zipcode</label>
+                            <input class="inputText" type="text" name="postalcode" value="{{addressData.postalcode}}">
+                            <label class="profLabel" for="description">Description</label>
+                            <input class="inputText" type="text" name="description"  value="{{addressData.description}}">
+
+                            <button type="submit">Update</button>
+                        </div>
+                    </form>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>
+        function editprof(){
+            if ($('#EditInfo').hasClass('hide')){
+                $('#DisplayInfo').addClass('hide')
+                $('#EditInfo').removeClass('hide')
+            }
+        }
+            
+    </script>
+    {% endblock %}
+    
+    
+</body>
+</html>

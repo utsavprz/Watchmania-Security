@@ -1,0 +1,15 @@
+*{  
+    margin: 0;
+    padding: 0;
+}
+.availabilityCtn{
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    height: 30px;
+    background-color: rgb(205,240,208);
+    color: rgb(1,108,76);
+    padding:  0 15px 0 15px ;
+    font-size: 12px;
+    border-radius: 50px;
+}

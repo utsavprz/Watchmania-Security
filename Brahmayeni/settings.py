@@ -32,6 +32,10 @@ ALLOWED_HOSTS = ["*","192.168.1.28"]
 
 INSTALLED_APPS = [
     'home.apps.HomeConfig',
+    'product.apps.ProductConfig',
+    'myorder',
+    'cart.apps.CartConfig',
+    'checkout.apps.CheckoutConfig',
     'accounts.apps.AccountsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,8 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'jquery',
+    'widget_tweaks',
+    'crispy_forms',
+    'encrypted_field',
+    'captcha',
 ]
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 MIDDLEWARE = [
@@ -52,7 +61,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
 ]
+# Session expiration: A session should have a time limit or expiration period to prevent 
+# unauthorized access to the user's data when staying idle for more than 2 minutes. When a 
+# session expires, the user is required to log in again to continue using the application.
+SESSION_EXPIRE_SECONDS = 320
+
+SESSION_TIMEOUT_REDIRECT = '/session_timeout/'
+
 
 ROOT_URLCONF = 'Brahmayeni.urls'
 
@@ -74,6 +91,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Brahmayeni.wsgi.application'
 
+ENCRYPTION_KEY = b'zHXyGPjK-m_mXsbWodtWuWD5sJkD8MvR_KJr6oQnPXw='
+
+
+
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -81,10 +102,10 @@ WSGI_APPLICATION = 'Brahmayeni.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'brahmayeni',
+        'NAME': 'watchmania',
         'USER': 'root',
-        'PASSWORD': 'madridista00',
-        'HOST': 'localhost',
+        'PASSWORD': 'root',
+        'HOST': '127.0.0.1',
         'PORT': '3306'
     }
 }
@@ -127,13 +148,41 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    '/var/www/static/',
-]
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL='/media/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# email configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "bramhayanigrocery@gmail.com"
+EMAIL_HOST_PASSWORD = "tqsahgniatjvlgao"
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename':os.path.join(BASE_DIR, 'audit_log_file.log'),  # Change this path to your desired log file
+        },
+    },
+    'loggers': {
+        'audit_logger': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}

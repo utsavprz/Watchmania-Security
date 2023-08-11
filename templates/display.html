@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Product Display
+{% endblock %}
+
+{% block body %}
+<div class="titleCtn extramargin d-flex align-items-center">
+    <h4>{{category_name.name}}</h4>
+</div>
+
+
+<div class="searchContainer d-flex">
+    {% for schproduct in filteredProd%}
+        <div class="SearchProductCard d-flex flex-column justify-content-between">
+            <div class="ProdImg">
+                <a href="/products/productDetail/{{schproduct.id}}?product={{schproduct.name}}"><img src="{{schproduct.image.url}}" alt=""></a>
+            </div>
+            <div class="ProdTitle">
+                <h6>{{schproduct.name}}</h6>
+                <hr>
+            </div>
+            <div class="ProdInfo d-flex">
+                <div class="ProdPrice">
+                    <h6>रु{{schproduct.price}}</h6>
+                </div>
+                <div class="ProdAvailability d-flex justify-content-end">
+                    {% if schproduct.available == True %}
+                        <h6>In Stock</h6>
+                    {% else %}
+                        <h6>Out of Stock</h6>
+                    {% endif %}
+
+                </div>
+            </div>
+            <div class="ProdAction d-flex justify-content-between">
+                <div class="cartBtn d-flex justify-content-center align-items-center">
+                    {% if user.is_authenticated %}
+                        {% if schproduct.available == True %}
+                            <button id="addTocart" data-product="{{schproduct.id}}" data-action="add" class="addToCart update-cart">Add to Cart</button>
+
+                            {% else %}
+                                <button class="outOfStock" disa>Out of Stock</button>
+                            {% endif %}
+                            {% else %}
+                                <form style="width: 100%;" action="/accounts/login">
+                                    {% if schproduct.available == True %}
+                                    <button class="addToCart">Add to Cart</button>
+                                    {% else %}
+                                    <button class="outOfStock" disabled>Out of Stock</button>
+                                    {% endif %}
+                                
+                                    
+                                    </form>
+                            {% endif %}
+                </div>
+                <div class="wishlistCtn d-flex align-items-center justify-content-center">
+                    
+                </div>
+            </div>
+        </div>
+        
+    {% endfor %}
+
+        
+        
+
+        
+        
+    </div>
+{% endblock %}

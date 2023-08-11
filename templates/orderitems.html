@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="titleCtn extramargin d-flex align-items-center justify-content-between">
+    <h4>My Ordered Products</h4>
+
+</div>
+<div style="height: auto; margin-bottom: -20px;" class="titleCtn d-flex align-items-center justify-content-between p-3 flex-wrap">
+    <h4 style="font-size: 14px; text-transform: none;">Order no.
+        <span id="totalOrderPrice" style="color: #1EA43A; font-size: 14px;">
+        {{order_id}}
+       </span></h4>
+
+        <a href="{% url 'myOrder' %}"><button style="width: 130px;" class="backCart">←Back to MyOrder</button></a>
+
+    </div>
+<div class="tb-container">
+
+    <table>
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Product</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total</th>
+
+          </tr>
+        </thead>
+        <h6>{{o_id}}</h6>
+        {% for item in items %}
+        <tbody>
+          <tr>
+            <td data-label="">
+                <div class="img-container">
+                           <a href="/products/productDetail/{{item.product.id}}"> <img src="{{item.product.image.url}}" alt="{{item.product.name}}"> </a> 
+                </div>
+            </td>
+            <td data-label="Product">{{item.product.name}}</td>
+            <td data-label="Price">रु{{item.product.price}}</td>
+            <td data-label="Quantity">
+                <div class="qty-counter d-flex justify-content-center align-items-center">
+                <div class=" cartinput-group cartinput-number-group">
+
+                <input class="cartinput-number" type="number" value="{{item.quantity}}" min="0" max="1000" readonly>
+
+                </div>
+
+
+            </div></td>
+            <td data-label="Total">रु{{item.get_total}}</td>
+            <!-- <td data-label=""><a style="color: red; cursor:pointer;" class="update-cart" data-product="{{item.product.id}}" data-action="deleteItem">Remove</a></td> -->
+
+            
+          </tr>
+          
+        </tbody>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

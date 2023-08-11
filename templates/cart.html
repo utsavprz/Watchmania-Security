@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}
+Cart
+{% endblock %}
+{% block body %}
+<div class="tb-container">
+    <div class="titleCtn extramargin d-flex align-items-center justify-content-between">
+        <h4>Shopping Cart ( {{order.get_cart_items}} )</h4>
+    </div>
+    <div class="titleCtn d-flex align-items-center justify-content-between">
+        <h4>Total: 
+            <span id="totalOrderPrice" style="color: #1EA43A; font-size: 16px;">
+            रु{{order.get_cart_total}}
+            </span></h4>
+
+                <button onclick="validateForCheckout()" class="checkoutBtn">Checkout</button>
+
+    </div>
+    <table>
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Product</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        {% for item in items%}
+        <tbody>
+          <tr>
+            <td data-label="">
+                <div class="img-container">
+                           <a href="/products/productDetail/{{item.product.id}}"> <img src="{{item.product.image.url}}" alt="{{item.product.name}}"> </a> 
+                </div>
+            </td>
+            <td data-label="Product">{{item.product.name}}</td>
+            <td data-label="Price">रु{{item.product.price}}</td>
+            <td data-label="Quantity">
+                <div class="qty-counter d-flex justify-content-center align-items-center">
+                <div class=" cartinput-group cartinput-number-group">
+                <div data-product={{item.product.id}} data-action="remove" class="cartinput-group-button update-cart">
+                    <span class="cartinput-number-decrement">-</span>
+                </div>
+                <input class="cartinput-number" type="number" value="{{item.quantity}}" min="0" max="1000" readonly>
+                <div data-product={{item.product.id}} data-action="add" class="cartinput-group-button update-cart">
+                    <span class="cartinput-number-increment">+</span>
+                </div>
+                </div>
+
+
+            </div></td>
+            <td data-label="Total">रु{{item.get_total}}</td>
+            <td data-label=""><a style="color: red; cursor:pointer;" class="update-cart" data-product="{{item.product.id}}" data-action="deleteItem">Remove</a></td>
+
+            
+          </tr>
+          
+        </tbody>
+        {% endfor %}
+    </table>
+    </div>
+    <div id="msgChk" class="msg-box hide alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Hey!</strong> Your shopping cart is empty, cannot proceed to checkout.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+{% endblock %}

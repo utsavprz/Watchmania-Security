@@ -1,0 +1,305 @@
+{% extends 'base.html' %}
+{% block title %}
+Checkout
+{% endblock %}
+
+
+{% block body %}
+
+<div class="Chkwrapper">
+    <div id="Chkone">
+        <div id="DisplayInfo" class="displayInfo">
+            <h5>Shipping Information</h5>
+            <hr>
+            <div style="background-color: #fff;" class="p-0">
+                <form id='form' name="Form" action="javascript:void(0);">
+                    {% csrf_token %}
+                <div class="d-flex flex-column">
+                    <div class="d-flex justify-content-between p-0 flex-wrap">
+                        <div class="ent1 p-0">
+                            <label class="profLabel bold" for="first_name">First Name</label>
+                            <input class="inputText borderInp" type="text" name="first_name" value="{{customer.first_name}}">
+                        </div>
+                        <div class="ent2 p-0">
+                            <label class="profLabel bold" for="first_name">Last Name</label>
+                            <input class="inputText borderInp" type="text" name="last_name" value="{{customer.last_name}}">
+                            
+
+                        </div>
+                    </div>
+                    {% if addressExists == True %}
+
+                    <div class="d-flex justify-content-between p-0 flex-wrap">
+                        <div class="ent1 p-0">
+                            <label class="profLabel bold" for="city">City</label>
+                            <input class="inputText borderInp" type="text" name="city" value="{{addressData.city}}">
+                    
+                        </div>
+                        <div class="ent2 p-0">
+                            <label class="profLabel bold" for="address">Address</label>
+                            <input class="inputText borderInp" type="text" name="address"  value="{{addressData.address}}">
+                            
+
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between p-0 flex-wrap">
+                        <div class="ent1street p-0">
+                            <label class="profLabel bold" for="street">Street</label>
+                            <input class="inputText borderInp" type="text" name="street"  value="{{addressData.street}}">
+                    
+                        </div>
+                        <div class="ent2zip p-0">
+                            <label class="profLabel bold" for="postalcode">Zipcode</label>
+                            <input class="inputText borderInp" type="text" name="postalcode" value="{{addressData.postalcode}}">
+                            
+
+                        </div>
+                    </div>
+                            
+                            <label class="profLabel bold" for="description">Description</label>
+                            <input class="inputText borderInp" type="text" name="description"  value="{{addressData.description}}">
+                        {% else %}
+                        <div class="d-flex justify-content-between p-0 flex-wrap">
+                            <div class="ent1 p-0">
+                                <label class="profLabel bold" for="city">City</label>
+                                <input class="inputText borderInp" type="text" name="city" value="" required>
+                        
+                            </div>
+                            <div class="ent2 p-0">
+                                <label class="profLabel bold" for="address">Address</label>
+                                <input class="inputText borderInp" type="text" name="address"  value="" required>
+                                
+    
+                            </div>
+                        </div>
+    
+                        <div class="d-flex justify-content-between p-0 flex-wrap">
+                            <div class="ent1street p-0">
+                                <label class="profLabel bold" for="street">Street</label>
+                                <input class="inputText borderInp" type="text" name="street"  value="" required>
+                        
+                            </div>
+                            <div class="ent2zip p-0">
+                                <label class="profLabel bold" for="postalcode">Zipcode</label>
+                                <input class="inputText borderInp" type="text" name="postalcode" value="" required>
+                                
+    
+                            </div>
+                        </div>
+                                
+                                <label class="profLabel bold" for="description">Description</label>
+                                <input class="inputText borderInp" type="text" name="description"  value="">
+                    {% endif %}
+                    <h6 style="margin-top: 30px;">Contact Information</h6>
+
+                    <div class="d-flex justify-content-between p-0 flex-wrap">
+                            <div class="ent1phone p-0">
+                                <label class="profLabel bold" for="phone">Phone</label>
+                            <input class="inputText borderInp" type="text" name="phone" value="" required >
+                        
+                            </div>
+                            <div class="ent2email p-0">
+                                <label class="profLabel bold" for="email">Email Address</label>
+                            <input class="inputText borderInp" type="text" name="email" value="{{customer.email}}" required>
+                                
+                            </div>
+                        </div>
+                        <h6 style="margin-top: 30px;">Payment Method</h6>
+                        <select style="width: 200px;" name="PaymentMethod" id="pm" onchange=getPmValue()>
+                                <option value="Cash on Delivery" name="Cash on Delivery">Cash on Delivery</option>
+                                <option value="Khalti" name="Khalti">Khalti</option>
+                        </select>
+                            
+                            <button id="payment-buttonCOD" class="payBtn" data-pm='COD'>Place Order</button>
+                            <button id="payment-buttonKhalti" class="payBtn d-none" onclick=validate()>Continue to payment</button>
+                        </div>
+                    </form>
+            </div>
+            <div id="payment-box" class="payment-box d-none p-0">
+            <div style="margin-top: 10px;" class="titleCtn d-flex align-items-center justify-content-between">
+                <h4 style="margin-left: 20px; margin-top: 10px;">Payment</h4><br>
+                <button id="payment-button" onclick=KhaltiAPI()>Pay with Khalti</button>
+
+            </div>
+        </div>
+                </div>
+    </div>
+    <div id="Chktwo">
+        
+        <div class="checkout-container">
+        <div style="margin-top: -10px;" class="titleCtn d-flex align-items-center justify-content-between">
+            <h4 style="margin-left: 20px; margin-top: 10px;">Items ( {{order.get_cart_items}} )</h4>
+            <form action="{% url 'cartIndex' %}">
+                <button class="backCart">←Manage Cart</button>
+            </form>
+        </div>
+    <table>
+        {% for item in items%}
+        <tbody>
+          <tr class="d-flex justify-content-between">
+            <td data-label="">
+                <div class="imgChk-container d-flex align-items-center justify-content-center">
+                           <a href="/products/productDetail/{{item.product.id}}"> <img src="{{item.product.image.url}}" alt="{{item.product.name}}"> </a> 
+                </div>
+            </td>
+            <td data-label="">
+            
+                <div style="width: 260px;" class="ChkCartInfo d-flex justify-content-between p-0">
+
+                    <div style="width: 25%;" class="d-flex flex-column align-items-start p-0">
+                        <b>Product:</b>
+                        <b>Price:</b>
+                        <b>Quantity:</b>
+                        <b>Total:</b>
+                    </div>
+                    <div style="width: 75%;" class="d-flex flex-column justify-content-center align-items-start p-0">
+                        <p style="margin: 0;">{{item.product.name}}</p>
+                        <p style="margin: 0;">रु{{item.product.price}}</p>
+                        <p style="margin: 0;">{{item.quantity}}</p>
+                        <p style="margin: 0;">रु{{item.get_total}}</p>
+                    </div>
+
+                </div>
+            </td>
+
+
+            
+          </tr>
+          
+        </tbody>
+        {% endfor %}
+    </table>
+    <div style="margin-top: -10px;" class="titleCtn d-flex align-items-center justify-content-end">
+        <h4>Total: 
+            <span style="color: #1EA43A; font-size: 16px;">
+            रु{{order.get_cart_total}}
+            </span></h4>
+    </div>
+</div>
+</div>
+</div>
+<div id="msgChk" class="msg-box d-none alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Hey!</strong> Please complete the shipping information.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+<script>
+    var paymentCOD = document.getElementById('payment-buttonCOD')
+    paymentCOD.addEventListener('click', function(){
+        saveShippingInfo("COD")
+    })
+
+    
+
+
+    function saveShippingInfo(pm){
+        var order = {{order}};
+        var phone = document.forms["Form"]["phone"].value;
+        var email = document.forms["Form"]["email"].value;
+        var city = document.forms["Form"]["city"].value;
+        var address = document.forms["Form"]["address"].value;
+        var street = document.forms["Form"]["street"].value;
+        var postalcode = document.forms["Form"]["postalcode"].value;
+        var description = document.forms["Form"]["description"].value;
+        var pm = pm
+        var orderID = {{order.id}}
+
+        if (phone == "" || email == "" || city == "" || address == "" || street == "" || postalcode == "" || description == "") {
+            console.log("false")
+            document.getElementById('msgChk').classList.remove('d-none')
+        }
+        else{
+
+            $.ajax(
+                {
+                    type:'get',
+                    url:'saveShipping',
+                    data:{
+                        order: order,
+                        phone:phone,
+                        email:email,
+                        city:city,
+                        address:address, 
+                        street:street, 
+                        postalcode:postalcode, 
+                        description:description,
+                        pm:pm
+                    },
+                    success:function(){
+                        console.log("Checkout Success")
+                        if (pm == "COD"){
+                            location.href="/paymentsuccess/"+orderID+"/"+1
+                        }
+                        else if (pm == "Khalti"){
+                            location.href="/paymentsuccess/"+orderID+"/"+0
+                        }
+                        // alert("Data sent for saving")
+                    }
+                }
+            )
+        }
+    }
+
+
+    function KhaltiAPI(){
+        var config = {
+            // replace the publicKey with yours
+            "publicKey": "test_public_key_12dcfbac71644fd1977f0a669782d76a",
+            "productIdentity": "{{order.id}}",
+            "productName": "{{order.id}}",
+            "productUrl": "http://localhost:8000",
+            "paymentPreference": [
+            "KHALTI",
+            "EBANKING",
+            "MOBILE_BANKING",
+            "CONNECT_IPS",
+            "SCT",
+            ],
+            "eventHandler": {
+                onSuccess (payload) {
+            // hit merchant api for initiating verfication
+                axios.get("khalti-verify",{
+                    params:{
+                        "token": payload.token,
+                        "amount":payload.amount,
+                        "order_id": "{{order.id}}"
+                    }
+                }).then(function(resp){
+                    if (resp.data.success == true){
+                        saveShippingInfo("Khalti")
+                         //this will redirect to your index
+                    }
+                    else{
+                        alert("Sorry, Error Occured. Please try again")
+                        location.href="{{request.build_absolute_url}}"
+                    }
+                console.log(resp.data)
+            })
+            console.log(payload);
+        },
+            onError (error) {
+                console.log(error);
+            },
+            onClose () {
+                console.log('widget is closing');
+            }
+            }
+            };
+        
+            var checkout = new KhaltiCheckout(config);
+            var btn = document.getElementById("payment-button");
+            // minimum transaction amount must be 10, i.e 1000 in paisa.
+                checkout.show({amount: {{order.get_cart_total}}*100});
+
+}
+
+
+</script>
+  {% endblock %}
